@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dược Linh Các — Frontend
 
-## Getting Started
+Frontend skeleton dùng Next.js (App Router) + TypeScript + Tailwind.
 
-First, run the development server:
+- Public site: các trang nội dung + SEO (Metadata + JSON-LD).
+- Admin UI: `/admin` (đăng nhập + quản lý nội dung/leads/cài đặt).
+- Không có tính năng thương mại điện tử (không giỏ hàng/đơn hàng/thanh toán).
+
+## Yêu cầu
+
+- Node.js (khuyến nghị LTS)
+- Backend chạy ở `NEXT_PUBLIC_API_BASE` (mặc định sẽ dùng `http://localhost:4000` nếu bạn không set env)
+
+## Cài đặt
+
+```bash
+npm install
+```
+
+## Biến môi trường
+
+Tạo `.env.local` dựa trên `.env.example`:
+
+```bash
+NEXT_PUBLIC_API_BASE=http://localhost:4000
+```
+
+## Chạy local
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Mở `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev`: chạy dev
+- `npm run build`: build production
+- `npm run start`: chạy production server
+- `npm run lint`: ESLint
+- `npm run format`: Prettier write
+- `npm run format:check`: Prettier check
 
-## Learn More
+## Routes chính
 
-To learn more about Next.js, take a look at the following resources:
+- Public:
+  - `/` (Trang chủ)
+  - `/chung-benh`, `/chung-benh/[slug]`
+  - `/dich-vu`, `/dich-vu/[slug]`
+  - `/linh-duoc`, `/linh-duoc/[slug]`
+  - `/bai-dang`, `/bai-dang/[slug]`
+  - `/lien-he`
+- Admin:
+  - `/admin/login`
+  - `/admin`
+  - `/admin/contents`, `/admin/contents/new`, `/admin/contents/[id]`
+  - `/admin/leads`
+  - `/admin/settings`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Ghi chú bảo mật (Admin)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Token admin được lưu bằng httpOnly cookie `dlc_admin_token`.
+- Admin UI chỉ gọi các endpoint nội bộ `/api/admin/*` (Next Route Handlers sẽ proxy sang backend).

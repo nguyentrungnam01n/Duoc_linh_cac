@@ -1,18 +1,44 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTs from "eslint-config-next/typescript";
+import js from '@eslint/js';
+import nextPlugin from '@next/eslint-plugin-next';
+import tsPlugin from '@typescript-eslint/eslint-plugin';
+import prettierPlugin from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  ...nextTs,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    ".next/**",
-    "out/**",
-    "build/**",
-    "next-env.d.ts",
-  ]),
-]);
+export default [
+  {
+    ignores: ['.next/**', 'node_modules/**', 'next-env.d.ts'],
+  },
 
-export default eslintConfig;
+  js.configs.recommended,
+
+  // Next.js core web vitals rules (flat config).
+  nextPlugin.configs['core-web-vitals'],
+
+  // TypeScript rules (flat config).
+  ...tsPlugin.configs['flat/recommended'],
+
+  // Prettier integration (disable conflicting rules + surface formatting as lint errors).
+  {
+    rules: {
+      ...prettierConfig.rules,
+      'prettier/prettier': 'error',
+    },
+    plugins: {
+      prettier: prettierPlugin,
+    },
+  },
+
+  // Config files in CommonJS.
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      sourceType: 'commonjs',
+      globals: {
+        module: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+      },
+    },
+  },
+];
