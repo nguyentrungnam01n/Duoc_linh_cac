@@ -122,7 +122,7 @@ export default async function HomePage() {
                 textShadow: '0 1px 2px rgba(0,0,0,0.5)',
               }}
             >
-             - VƯỢT TRÊN KỲ VỌNG CỦA BẠN -
+              - VƯỢT TRÊN KỲ VỌNG CỦA BẠN -
             </p>
             {/* BIG LINE DECORATION */}
             <div

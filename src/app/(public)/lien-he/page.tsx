@@ -20,7 +20,6 @@ const beVietnamPro = Be_Vietnam_Pro({
   display: 'swap',
 });
 
-
 const bigShouldersDisplay = localFont({
   src: [
     {
@@ -42,7 +41,7 @@ export default function ContactPage() {
   return (
     <div className="">
       <div className="w-full">
-        <section className='relative min-h-[950px] w-full overflow-hidden bg-[#4D0000]'>
+        <section className="relative min-h-[950px] w-full overflow-hidden bg-[#4D0000]">
           <Image
             src={backgroundImage}
             alt=""
@@ -114,7 +113,7 @@ export default function ContactPage() {
                         style={{
                           fontSize: '41.626px',
                           lineHeight: '53px',
-                          marginLeft: '62px', 
+                          marginLeft: '62px',
                         }}
                       >
                         DƯỢC LINH CÁC
@@ -143,9 +142,7 @@ export default function ContactPage() {
                         <span>duoclinhcac@gmail.com</span>
                       </div>
                       <div className="flex">
-                        <span className="min-w-[75px] font-bold">
-                          Địa chỉ:
-                        </span>
+                        <span className="min-w-[75px] font-bold">Địa chỉ:</span>
                         <div className="flex flex-col gap-[20px]">
                           <p>
                             290/2 Nam kì Khởi Nghĩa, phường Võ Thị Sáu, Quận 3,
@@ -164,7 +161,6 @@ export default function ContactPage() {
                 </div>
               </div>
             </div>
-            
           </div>
         </section>
       </div>

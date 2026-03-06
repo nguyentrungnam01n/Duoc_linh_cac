@@ -12,7 +12,7 @@ function AutoScrollContent() {
     if (element) {
       const topStart = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
-        top: topStart - 20, 
+        top: topStart - 20,
         behavior: 'smooth',
       });
     }

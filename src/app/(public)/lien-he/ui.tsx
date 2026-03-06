@@ -84,11 +84,29 @@ export function ContactForm() {
   if (success) {
     return (
       <section
-        className={`flex h-[300px] flex-col items-center justify-center rounded-[4px] bg-[#F9FFDC] p-6 text-center ${beVietnamPro.className}`}
+        className={`flex min-h-[400px] w-full flex-col items-center justify-center rounded-[4px] bg-[#F9FFDC] p-8 text-center shadow-sm ${beVietnamPro.className}`}
       >
-        <p className="text-xl font-bold text-[#3F3F3F]">Gửi thành công</p>
-        <p className="mt-2 text-base text-[#3F3F3F]">
-          Cảm ơn bạn. Chúng tôi sẽ liên hệ lại sớm.
+        <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#BF351C]/10 ring-1 ring-[#BF351C]/20">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40"
+            height="40"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#BF351C"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h3 className="mb-3 text-2xl font-bold text-[#BF351C]">
+          Gửi liên hệ thành công!
+        </h3>
+        <p className="max-w-[80%] text-base text-[#3F3F3F]">
+          Cảm ơn bạn đã quan tâm đến Dược Linh Các. Chúng tôi đã nhận được thông
+          tin và sẽ phản hồi trong thời gian sớm nhất.
         </p>
       </section>
     );

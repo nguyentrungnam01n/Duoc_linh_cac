@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Breadcrumb, Disclaimer, RichText } from '@/components';
+import { Breadcrumb } from '@/components';
 import { fetchContentDetail } from '@/lib/api';
 import { breadcrumbJsonLd, getRequestOrigin, safeJsonLd } from '../../_seo';
 import localFont from 'next/font/local';
@@ -35,17 +35,16 @@ export async function generateMetadata({
     description,
     openGraph: image
       ? {
-        title,
-        description,
-        images: [image],
-      }
+          title,
+          description,
+          images: [image],
+        }
       : {
-        title,
-        description,
-      },
+          title,
+          description,
+        },
   };
 }
-
 
 // 2. Cấu hình font
 const beVietnamPro = Be_Vietnam_Pro({
@@ -54,7 +53,6 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
   display: 'swap',
 });
-
 
 const bigShouldersDisplay = localFont({
   src: [
@@ -80,7 +78,8 @@ const MOCK_RELATED_POSTS = [
     category: 'Sức khỏe',
     title: 'SỨC KHỎE THỂ CHẤT LÀ GÌ?',
     slug: 'suc-khoe-the-chat-la-gi',
-    description: 'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
+    description:
+      'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
     date: '24.1.2026',
     author: 'Nguyễn Văn A',
   },
@@ -90,7 +89,8 @@ const MOCK_RELATED_POSTS = [
     category: 'Sức khỏe',
     title: 'GIỮ GÌN SỨC KHỎE CỘNG ĐỒNG BẰNG TINH HOA DÂN TÔC',
     slug: 'giu-gin-suc-khoe-cong-dong-bang-tinh-hoa-dan-toc',
-    description: 'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
+    description:
+      'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
     date: '24.1.2026',
     author: 'Nguyễn Văn A',
   },
@@ -100,7 +100,8 @@ const MOCK_RELATED_POSTS = [
     category: 'Sức khỏe',
     title: 'NHỮNG KIẾN THỨC CƠ BẢN VỀ THUỐC NAM',
     slug: 'nhung-kien-thuc-co-ban-ve-thuoc-nam',
-    description: 'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
+    description:
+      'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
     date: '24.1.2026',
     author: 'Nguyễn Văn A',
   },
@@ -138,13 +139,13 @@ const MOCK_POSTS_DATA = [
     id: 4,
     category: 'Sức khỏe',
     categoryColor: '#FFF9A7',
-    title: 'Y HỌC CỔ TRUYỀN LÀ DI SẢN VĂN HOÁ QUÝ CẦN ĐƯỢC BẢO TỒN VÀ PHÁT TRIỂN',
+    title:
+      'Y HỌC CỔ TRUYỀN LÀ DI SẢN VĂN HOÁ QUÝ CẦN ĐƯỢC BẢO TỒN VÀ PHÁT TRIỂN',
     slug: 'y-hoc-co-truyen-la-di-san-van-hoa-quy-can-duoc-bao-ton-va-phat-trien',
     date: '24.1.2026',
     author: 'Nguyễn Văn A',
   },
 ];
-
 
 export default async function PostDetailPage({
   params,
@@ -153,12 +154,16 @@ export default async function PostDetailPage({
 }) {
   const { slug } = await params;
   const content = await fetchContentDetail('POST', slug);
-  const displayPost = MOCK_POSTS_DATA.find(p => p.slug === slug) || MOCK_POSTS_DATA[0]; 
+  const displayPost =
+    MOCK_POSTS_DATA.find((p) => p.slug === slug) || MOCK_POSTS_DATA[0];
 
   const crumbs = [
     { label: 'Trang chủ', href: '/' },
     { label: 'Bài đăng', href: '/bai-dang' },
-    { label: displayPost?.title || content.title, href: `/bai-dang/${content.slug}` },
+    {
+      label: displayPost?.title || content.title,
+      href: `/bai-dang/${content.slug}`,
+    },
   ];
 
   const origin = await getRequestOrigin();
@@ -180,7 +185,15 @@ export default async function PostDetailPage({
   };
 
   return (
-    <div className="">
+    <div className={`${bigShouldersDisplay.variable}`}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={safeJsonLd(breadcrumbLd)}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={safeJsonLd(articleLd)}
+      />
       <div className="w-full">
         <Image
           src={bannerImage}
@@ -189,7 +202,7 @@ export default async function PostDetailPage({
           priority
         />
       </div>
-      <article className='relative w-full min-h-screen overflow-hidden bg-[#4D0000] flex flex-col items-center pb-20'>
+      <article className="relative w-full min-h-screen overflow-hidden bg-[#4D0000] flex flex-col items-center pb-20">
         <Image
           src={backgroundImage}
           alt=""
@@ -213,7 +226,7 @@ export default async function PostDetailPage({
             marginTop: '224px',
             paddingTop: '118px',
             paddingBottom: '118px',
-            gap: '32px'
+            gap: '32px',
           }}
         >
           <Image
@@ -222,6 +235,15 @@ export default async function PostDetailPage({
             fill
             className="object-fill -z-10"
           />
+
+          <div
+            style={{
+              width: '955px',
+              marginBottom: '20px',
+            }}
+          >
+            <Breadcrumb items={crumbs} />
+          </div>
 
           {/* Title: Gìn giữ sức khỏe cộng đồng... */}
           <div
@@ -238,37 +260,49 @@ export default async function PostDetailPage({
               flexShrink: 0,
             }}
           >
-            {displayPost?.title || "Gìn giữ sức khỏe cộng đồng bằng tinh hoa dân tộc"}
+            {displayPost?.title ||
+              'Gìn giữ sức khỏe cộng đồng bằng tinh hoa dân tộc'}
           </div>
 
           {/* Metadata: Category, Date, Author */}
           <div className="flex items-center justify-center gap-6">
-             {/* Category */}
+            {/* Category */}
             <div className="flex items-center gap-2">
-                <span className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}>Chuyên mục:</span>
-                <div className="relative">
-                    <div className="bg-[#E75739] rounded-[10px] px-3 py-1">
-                        <span className={`${beVietnamPro.className} text-[12px] font-bold`} style={{ color: displayPost?.categoryColor || '#F9FFDC' }}>
-                            {displayPost?.category || 'Sức khỏe'}
-                        </span>
-                    </div>
+              <span
+                className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}
+              >
+                Chuyên mục:
+              </span>
+              <div className="relative">
+                <div className="bg-[#E75739] rounded-[10px] px-3 py-1">
+                  <span
+                    className={`${beVietnamPro.className} text-[12px] font-bold`}
+                    style={{ color: displayPost?.categoryColor || '#F9FFDC' }}
+                  >
+                    {displayPost?.category || 'Sức khỏe'}
+                  </span>
                 </div>
-            </div>
-
-             {/* Separator */}
-            <div className="w-[1px] h-[20px] bg-[#760000]"></div>
-
-             {/* Date */}
-            <div className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}>
-                Ngày đăng: {displayPost?.date || '24.1.2026'}
+              </div>
             </div>
 
             {/* Separator */}
             <div className="w-[1px] h-[20px] bg-[#760000]"></div>
 
-             {/* Author */}
-             <div className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}>
-                Tác giả: {displayPost?.author || 'Nguyễn Văn A'}
+            {/* Date */}
+            <div
+              className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}
+            >
+              Ngày đăng: {displayPost?.date || '24.1.2026'}
+            </div>
+
+            {/* Separator */}
+            <div className="w-[1px] h-[20px] bg-[#760000]"></div>
+
+            {/* Author */}
+            <div
+              className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}
+            >
+              Tác giả: {displayPost?.author || 'Nguyễn Văn A'}
             </div>
           </div>
 
@@ -283,7 +317,16 @@ export default async function PostDetailPage({
               lineHeight: '21px',
             }}
           >
-            Trong bối cảnh hiện đại hóa và hội nhập quốc tế, Y học cổ truyền (YHCT) vẫn giữ một vị trí quan trọng trong việc chăm sóc sức khỏe cộng đồng. Được đúc kết từ hàng ngàn năm lịch sử, Y học cổ truyền Việt Nam là kho tàng kiến thức quý giá, các vị thuốc Đông Y (các loại dược liệu, thảo mộc từ thiên nhiên) cơ bản rất gần gũi trong đời sống hằng ngày kết hợp giữa lý thuyết triết học phương Đông và các bài thuốc từ thảo dược thiên nhiên. Tại Trường Đại học Hòa Bình, chúng tôi tự hào mang đến chương trình đào tạo YHCT với sứ mệnh gìn giữ và phát huy tinh hoa dân tộc, đồng thời trang bị cho sinh viên những kiến thức vững chắc về y học.
+            Trong bối cảnh hiện đại hóa và hội nhập quốc tế, Y học cổ truyền
+            (YHCT) vẫn giữ một vị trí quan trọng trong việc chăm sóc sức khỏe
+            cộng đồng. Được đúc kết từ hàng ngàn năm lịch sử, Y học cổ truyền
+            Việt Nam là kho tàng kiến thức quý giá, các vị thuốc Đông Y (các
+            loại dược liệu, thảo mộc từ thiên nhiên) cơ bản rất gần gũi trong
+            đời sống hằng ngày kết hợp giữa lý thuyết triết học phương Đông và
+            các bài thuốc từ thảo dược thiên nhiên. Tại Trường Đại học Hòa Bình,
+            chúng tôi tự hào mang đến chương trình đào tạo YHCT với sứ mệnh gìn
+            giữ và phát huy tinh hoa dân tộc, đồng thời trang bị cho sinh viên
+            những kiến thức vững chắc về y học.
           </div>
 
           {/* Image 8 */}
@@ -295,7 +338,12 @@ export default async function PostDetailPage({
               flexShrink: 0,
             }}
           >
-            <Image src={templateImg8} alt="Template 8" fill className="object-cover" />
+            <Image
+              src={templateImg8}
+              alt="Template 8"
+              fill
+              className="object-cover"
+            />
           </div>
 
           {/* Heading 2: Tầm quan trọng... */}
@@ -308,7 +356,7 @@ export default async function PostDetailPage({
               fontSize: '32px',
               lineHeight: '40px',
               flexShrink: 0,
-              marginTop: '32px' // Add extra margin for section separation
+              marginTop: '32px', // Add extra margin for section separation
             }}
           >
             Tầm quan trọng của Y học cổ truyền trong chăm sóc sức khỏe
@@ -339,10 +387,15 @@ Phòng bệnh hơn chữa bệnh: Một trong những nguyên tắc cốt lõi c
               width: '1007px',
               height: '467px',
               flexShrink: 0,
-              marginTop: '32px'
+              marginTop: '32px',
             }}
           >
-            <Image src={templateImg9} alt="Template 9" fill className="object-cover" />
+            <Image
+              src={templateImg9}
+              alt="Template 9"
+              fill
+              className="object-cover"
+            />
           </div>
 
           {/* Heading 3: Y học Cổ truyền là gì? */}
@@ -355,7 +408,7 @@ Phòng bệnh hơn chữa bệnh: Một trong những nguyên tắc cốt lõi c
               fontSize: '32px',
               lineHeight: '40px',
               flexShrink: 0,
-              marginTop: '32px'
+              marginTop: '32px',
             }}
           >
             Y học Cổ truyền là gì?
@@ -374,7 +427,7 @@ Phòng bệnh hơn chữa bệnh: Một trong những nguyên tắc cốt lõi c
             }}
           >
             {`Y học Cổ truyền (Traditional medicine) là một hệ thống y học dựa trên quan niệm triết học phương Đông, đặc biệt là nguyên lý âm dương – ngũ hành, khí huyết và kinh lạc. Phương pháp này tập trung vào việc điều chỉnh sự cân bằng trong cơ thể, giúp cơ thể tự phục hồi thay vì chỉ chữa trị triệu chứng như Tây Y.
-Nguyên lý cơ bản trong Y học Cổ truyền: 
+Nguyên lý cơ bản trong Y học Cổ truyền: 
 Nguyên lý Âm Dương – Ngũ Hành
 Y học cổ truyền dựa trên thuyết Âm Dương – Ngũ Hành, trong đó:
 Âm – Dương đại diện cho hai mặt đối lập nhưng bổ sung cho nhau của sự sống. Khi Âm Dương cân bằng, cơ thể khỏe mạnh; khi mất cân bằng, bệnh tật xuất hiện.
@@ -406,7 +459,7 @@ Tạng phủ: Bao gồm ngũ tạng (Tâm, can, tỳ, phế, thận) và lục p
               color: '#FFE7B6',
               textTransform: 'uppercase',
               textAlign: 'left',
-              paddingLeft: '10px'
+              paddingLeft: '10px',
             }}
           >
             CÁC BÀI VIẾT LIÊN QUAN
@@ -423,184 +476,181 @@ Tạng phủ: Bao gồm ngũ tạng (Tâm, can, tỳ, phế, thận) và lục p
                   height: '406.4px',
                 }}
               >
+                <Image
+                  src={smallBox}
+                  alt={`Related Post ${post.id}`}
+                  fill
+                  className="object-fill"
+                />
+                {/* Post Image */}
+                <Link
+                  href={`/bai-dang/${post.slug}`}
+                  className="absolute cursor-pointer"
+                  style={{
+                    width: '305px',
+                    height: '203px',
+                    left: '9px',
+                    top: '12px',
+                  }}
+                >
                   <Image
-                    src={smallBox}
-                    alt={`Related Post ${post.id}`}
+                    src={post.image}
+                    alt={post.title}
                     fill
-                    className="object-fill"
+                    className="object-cover"
                   />
-                  {/* Post Image */}
-                  <Link
-                    href={`/bai-dang/${post.slug}`}
-                    className="absolute cursor-pointer"
-                    style={{
-                      width: '305px',
-                      height: '203px',
-                      left: '9px',
-                      top: '12px',
-                    }}
-                  >
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </Link>
+                </Link>
 
-                  {/* Chuyên mục: */}
-                  <div
-                    className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
-                    style={{
-                      height: '38.67px',
-                      left: '21.23px',
-                      top: '228.98px',
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '11.1951px',
-                      lineHeight: '14px',
-                    }}
-                  >
-                    Chuyên mục:
-                  </div>
+                {/* Chuyên mục: */}
+                <div
+                  className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
+                  style={{
+                    height: '38.67px',
+                    left: '21.23px',
+                    top: '228.98px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '11.1951px',
+                    lineHeight: '14px',
+                  }}
+                >
+                  Chuyên mục:
+                </div>
 
-                  {/* Badge Background */}
-                  <div
-                    className="absolute bg-[#E75739]"
-                    style={{
-                      width: '50.8px',
-                      height: '15.63px',
-                      left: '105.39px',
-                      top: '240.35px',
-                      borderRadius: '7.81546px',
-                    }}
-                  />
+                {/* Badge Background */}
+                <div
+                  className="absolute bg-[#E75739]"
+                  style={{
+                    width: '50.8px',
+                    height: '15.63px',
+                    left: '105.39px',
+                    top: '240.35px',
+                    borderRadius: '7.81546px',
+                  }}
+                />
 
-                  {/* Category Text */}
-                  <div
-                    className={`flex items-center text-[#FFF9A7] ${beVietnamPro.className}`}
-                    style={{
-                      height: '20.47px',
-                      left: '116.01px',
-                      top: '238.08px', 
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '5.92682px',
-                      lineHeight: '7px',
-                    }}
-                  >
-                    {post.category}
-                  </div>
+                {/* Category Text */}
+                <div
+                  className={`flex items-center text-[#FFF9A7] ${beVietnamPro.className}`}
+                  style={{
+                    height: '20.47px',
+                    left: '116.01px',
+                    top: '238.08px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '5.92682px',
+                    lineHeight: '7px',
+                  }}
+                >
+                  {post.category}
+                </div>
 
-                  {/* Title */}
-                  <Link
-                    href={`/bai-dang/${post.slug}`}
-                    className={`flex items-center uppercase text-[#760000] cursor-pointer ${beVietnamPro.className}`}
-                    style={{
-                      width: '280.54px',
-                      height: '38.67px',
-                      left: '21.23px',
-                      top: '261.58px',
-                      position: 'absolute',
-                      fontWeight: 900,
-                      fontSize: '11.1951px',
-                      lineHeight: '14px',
-                    }}
-                  >
-                    {post.title}
-                  </Link>
+                {/* Title */}
+                <Link
+                  href={`/bai-dang/${post.slug}`}
+                  className={`flex items-center uppercase text-[#760000] cursor-pointer ${beVietnamPro.className}`}
+                  style={{
+                    width: '280.54px',
+                    height: '38.67px',
+                    left: '21.23px',
+                    top: '261.58px',
+                    position: 'absolute',
+                    fontWeight: 900,
+                    fontSize: '11.1951px',
+                    lineHeight: '14px',
+                  }}
+                >
+                  {post.title}
+                </Link>
 
-                  {/* Description */}
-                  <div
-                    className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
-                    style={{
-                      width: '280.54px',
-                      left: '21.23px',
-                      top: '300.25px',
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '9.09859px',
-                      lineHeight: '12px',
-                    }}
-                  >
-                    {post.description}
-                  </div>
+                {/* Description */}
+                <div
+                  className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
+                  style={{
+                    width: '280.54px',
+                    left: '21.23px',
+                    top: '300.25px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '9.09859px',
+                    lineHeight: '12px',
+                  }}
+                >
+                  {post.description}
+                </div>
 
-                  {/* Date */}
-                  <div
-                    className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
-                    style={{
-                      height: '38.67px',
-                      left: '21.23px',
-                      top: '342.71px',
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '9.09859px',
-                      lineHeight: '12px',
-                    }}
-                  >
-                    Ngày đăng: {post.date}
-                  </div>
+                {/* Date */}
+                <div
+                  className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
+                  style={{
+                    height: '38.67px',
+                    left: '21.23px',
+                    top: '342.71px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '9.09859px',
+                    lineHeight: '12px',
+                  }}
+                >
+                  Ngày đăng: {post.date}
+                </div>
 
-                  {/* Separator */}
-                  <div
-                    className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
-                    style={{
-                      width: '6.82px',
-                      height: '38.67px',
-                      left: '124.35px',
-                      top: '342.71px',
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '9.09859px',
-                      lineHeight: '12px',
-                    }}
-                  >
-                    |
-                  </div>
+                {/* Separator */}
+                <div
+                  className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
+                  style={{
+                    width: '6.82px',
+                    height: '38.67px',
+                    left: '124.35px',
+                    top: '342.71px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '9.09859px',
+                    lineHeight: '12px',
+                  }}
+                >
+                  |
+                </div>
 
-                  {/* Author */}
-                  <div
-                    className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
-                    style={{
-                      height: '38.67px',
-                      left: '132.69px',
-                      top: '342.71px',
-                      position: 'absolute',
-                      fontWeight: 400,
-                      fontSize: '9.09859px',
-                      lineHeight: '12px',
-                    }}
-                  >
-                    Tác giả: {post.author}
-                  </div>
+                {/* Author */}
+                <div
+                  className={`flex items-center text-[#760000] ${beVietnamPro.className}`}
+                  style={{
+                    height: '38.67px',
+                    left: '132.69px',
+                    top: '342.71px',
+                    position: 'absolute',
+                    fontWeight: 400,
+                    fontSize: '9.09859px',
+                    lineHeight: '12px',
+                  }}
+                >
+                  Tác giả: {post.author}
+                </div>
 
-                  {/* Read More */}
-                  <Link
-                    href={`/bai-dang/${post.slug}`}
-                    className={`flex items-center text-[#760000] italic underline ${beVietnamPro.className}`}
-                    style={{
-                      width: '50.8px',
-                      height: '9.1px',
-                      left: '21.99px',
-                      top: '378.35px',
-                      position: 'absolute',
-                      fontWeight: 700,
-                      fontSize: '9.09859px',
-                      lineHeight: '12px',
-                      cursor: 'pointer',
-                      textDecorationLine: 'underline',
-                    }}
-                  >
-                    Đọc thêm
-                  </Link>
+                {/* Read More */}
+                <Link
+                  href={`/bai-dang/${post.slug}`}
+                  className={`flex items-center text-[#760000] italic underline ${beVietnamPro.className}`}
+                  style={{
+                    width: '50.8px',
+                    height: '9.1px',
+                    left: '21.99px',
+                    top: '378.35px',
+                    position: 'absolute',
+                    fontWeight: 700,
+                    fontSize: '9.09859px',
+                    lineHeight: '12px',
+                    cursor: 'pointer',
+                    textDecorationLine: 'underline',
+                  }}
+                >
+                  Đọc thêm
+                </Link>
               </div>
             ))}
           </div>
         </div>
-
-
-
       </article>
     </div>
   );
