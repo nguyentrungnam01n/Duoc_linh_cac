@@ -1,17 +1,24 @@
 import type {
   ContentDetail,
   ContentSummary,
-  ContentType,
   LeadPayload,
   PaginatedResponse,
   SettingsDto,
 } from '@/types';
 
-import { mockContentDetail, mockContentList, mockPublicHome } from './mockData';
-
 type PublicHomeResponse = {
-  featured?: ContentSummary[];
+  featured?: {
+    posts: ContentSummary[];
+    diseases: ContentSummary[];
+    services: ContentSummary[];
+    herbs: ContentSummary[];
+  };
   latestPosts?: ContentSummary[];
+  banner?: {
+    title: string | null;
+    subtitle: string | null;
+    imageId: string | null;
+  };
   settings?: SettingsDto;
 };
 
@@ -51,63 +58,30 @@ async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export async function fetchPublicHome(): Promise<PublicHomeResponse> {
-  if (!getApiBase()) {
-    return mockPublicHome();
-  }
-  try {
-    return await fetchJson<PublicHomeResponse>('/api/public/home');
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      return mockPublicHome();
-    }
-    throw err;
-  }
+  return await fetchJson<PublicHomeResponse>('/api/public/home');
 }
 
 export async function fetchContentList(params: {
-  type: ContentType;
+  category?: string;
   q?: string;
+  tag?: string;
   page?: number;
   pageSize?: number;
 }): Promise<PaginatedResponse<ContentSummary>> {
-  if (!getApiBase()) {
-    return mockContentList(params);
-  }
   const search = new URLSearchParams();
-  search.set('type', params.type);
+  if (params.category) search.set('category', params.category);
   if (params.q) search.set('q', params.q);
+  if (params.tag) search.set('tag', params.tag);
   if (params.page) search.set('page', String(params.page));
   if (params.pageSize) search.set('pageSize', String(params.pageSize));
 
-  try {
-    return await fetchJson<PaginatedResponse<ContentSummary>>(
-      `/api/public/contents?${search.toString()}`,
-    );
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      return mockContentList(params);
-    }
-    throw err;
-  }
+  return await fetchJson<PaginatedResponse<ContentSummary>>(
+    `/api/public/contents?${search.toString()}`,
+  );
 }
 
-export async function fetchContentDetail(
-  type: ContentType,
-  slug: string,
-): Promise<ContentDetail> {
-  if (!getApiBase()) {
-    return mockContentDetail(type, slug);
-  }
-  try {
-    return await fetchJson<ContentDetail>(
-      `/api/public/contents/${type}/${slug}`,
-    );
-  } catch (err) {
-    if (process.env.NODE_ENV !== 'production') {
-      return mockContentDetail(type, slug);
-    }
-    throw err;
-  }
+export async function fetchContentDetail(slug: string): Promise<ContentDetail> {
+  return await fetchJson<ContentDetail>(`/api/public/contents/${slug}`);
 }
 
 export async function submitLead(payload: LeadPayload): Promise<{ ok: true }> {

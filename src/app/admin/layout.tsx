@@ -10,7 +10,8 @@ const beVietnamPro = Be_Vietnam_Pro({
   display: 'swap',
 });
 
-const NAV_CLASSES = "block px-4 py-2 rounded-md transition-colors hover:bg-[#760000] hover:text-[#FFF9A7]";
+const NAV_CLASSES =
+  'block px-4 py-2 rounded-md transition-colors hover:bg-[#760000] hover:text-[#FFF9A7]';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
@@ -18,7 +19,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       {/* Header */}
       <header className="border-b border-[#E75739]/20 bg-white sticky top-0 z-50 shadow-sm">
         <div className="mx-auto flex w-full items-center justify-between px-6 py-4">
-          <Link href="/admin" className="flex items-center gap-2 text-lg font-bold text-[#4D0000]">
+          <Link
+            href="/admin"
+            className="flex items-center gap-2 text-lg font-bold text-[#4D0000]"
+          >
             <span className="text-2xl">🛡️</span>
             Admin · Dược Linh Các
           </Link>

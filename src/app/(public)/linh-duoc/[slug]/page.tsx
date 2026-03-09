@@ -11,11 +11,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const content = await fetchContentDetail('HERB', slug);
+  const content = await fetchContentDetail(slug);
 
   const title = content.metaTitle || content.title;
   const description = content.metaDescription || content.excerpt || undefined;
-  const image = content.ogImage || content.cover || undefined;
+  const image = content.coverImage?.url || undefined;
 
   return {
     title,
@@ -39,7 +39,7 @@ export default async function HerbDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const content = await fetchContentDetail('HERB', slug);
+  const content = await fetchContentDetail(slug);
 
   const crumbs = [
     { label: 'Trang chủ', href: '/' },

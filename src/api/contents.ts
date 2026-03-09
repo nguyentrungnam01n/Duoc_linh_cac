@@ -6,7 +6,9 @@ import {
 } from '@/types';
 import { adminFetch } from './client';
 
-export const listContents = (query: string): Promise<AdminContentListResponse> => {
+export const listContents = (
+  query: string,
+): Promise<AdminContentListResponse> => {
   return adminFetch<AdminContentListResponse>(`/api/admin/contents${query}`);
 };
 
@@ -29,26 +31,23 @@ export const updateContent = (
   payload: AdminContentUpdateInput,
 ): Promise<AdminContentResponse> => {
   return adminFetch<AdminContentResponse>(`/api/admin/contents/${id}`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
 };
 
 export const publishContent = (id: string): Promise<AdminContentResponse> => {
-  return adminFetch<AdminContentResponse>(
-    `/api/admin/contents/${id}/publish`,
-    {
-      method: 'POST',
-    },
-  );
+  return adminFetch<AdminContentResponse>(`/api/admin/contents/${id}/publish`, {
+    method: 'PUT',
+  });
 };
 
 export const unpublishContent = (id: string): Promise<AdminContentResponse> => {
   return adminFetch<AdminContentResponse>(
     `/api/admin/contents/${id}/unpublish`,
     {
-      method: 'POST',
+      method: 'PUT',
     },
   );
 };

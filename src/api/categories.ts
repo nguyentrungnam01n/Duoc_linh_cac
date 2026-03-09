@@ -5,19 +5,26 @@ export const listCategories = (): Promise<Category[]> => {
   return adminFetch<Category[]>('/api/admin/categories');
 };
 
-export const createCategory = (name: string, scope?: string, color?: string): Promise<Category> => {
+export const createCategory = (
+  name: string,
+  slug?: string,
+): Promise<Category> => {
   return adminFetch<Category>('/api/admin/categories', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, scope, color }),
+    body: JSON.stringify({ name, slug }),
   });
 };
 
-export const updateCategory = (id: string, name: string, color?: string): Promise<Category> => {
+export const updateCategory = (
+  id: string,
+  name: string,
+  slug?: string,
+): Promise<Category> => {
   return adminFetch<Category>(`/api/admin/categories/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, color }),
+    body: JSON.stringify({ name, slug }),
   });
 };
 

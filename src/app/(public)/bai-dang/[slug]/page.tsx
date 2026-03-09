@@ -24,11 +24,11 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const content = await fetchContentDetail('POST', slug);
+  const content = await fetchContentDetail(slug);
 
   const title = content.metaTitle || content.title;
   const description = content.metaDescription || content.excerpt || undefined;
-  const image = content.ogImage || content.cover || undefined;
+  const image = content.coverImageId || undefined;
 
   return {
     title,
@@ -153,7 +153,7 @@ export default async function PostDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const content = await fetchContentDetail('POST', slug);
+  const content = await fetchContentDetail(slug);
   const displayPost =
     MOCK_POSTS_DATA.find((p) => p.slug === slug) || MOCK_POSTS_DATA[0];
 
@@ -177,7 +177,7 @@ export default async function PostDetailPage({
     mainEntityOfPage: canonical,
     datePublished: content.publishedAt ?? undefined,
     dateModified: content.updatedAt ?? undefined,
-    image: content.ogImage || content.cover || undefined,
+    image: content.coverImageId || undefined,
     publisher: {
       '@type': 'Organization',
       name: 'Dược Linh Các',

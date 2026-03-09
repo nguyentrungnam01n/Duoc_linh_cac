@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 
 export default function AdminLoginPage() {
   return (
-    <div className={`min-h-dvh flex items-center justify-center bg-[#4D0000] p-4 relative overflow-hidden ${beVietnamPro.className}`}>
+    <div
+      className={`min-h-dvh flex items-center justify-center bg-[#4D0000] p-4 relative overflow-hidden ${beVietnamPro.className}`}
+    >
       {/* Background decoration */}
       <div className="absolute top-[-50px] right-[-50px] w-[300px] h-[300px] rounded-full bg-[#E75739] blur-[100px] opacity-20" />
       <div className="absolute bottom-[-50px] left-[-50px] w-[300px] h-[300px] rounded-full bg-[#FFF9A7] blur-[100px] opacity-10" />
@@ -31,9 +33,9 @@ export default function AdminLoginPage() {
               Hệ thống quản trị
             </p>
           </div>
-          
+
           <LoginForm />
-          
+
           <div className="mt-8 text-center text-xs text-[#4D0000]/60">
             &copy; 2026 Duoc Linh Cac. All rights reserved.
           </div>

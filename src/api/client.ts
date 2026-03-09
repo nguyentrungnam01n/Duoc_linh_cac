@@ -28,5 +28,18 @@ export async function adminFetch<T>(
     throw new Error(await readErrorMessage(res));
   }
 
-  return (await res.json()) as T;
+  if (res.status === 204) {
+    return {} as T;
+  }
+
+  const text = await res.text();
+  if (!text) {
+    return {} as T;
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error('Invalid JSON response');
+  }
 }

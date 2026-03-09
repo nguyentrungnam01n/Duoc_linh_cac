@@ -6,7 +6,7 @@ import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { adminApi } from '@/lib/adminApi';
 import type {
   AdminContentListResponse,
-  ContentType,
+  Category,
   PublishStatus,
 } from '@/types';
 
@@ -73,15 +73,20 @@ export function ContentsPage() {
   const pathname = usePathname();
 
   const [data, setData] = useState<AdminContentListResponse | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Search params
-  const type = (sp.get('type') as ContentType | null) ?? '';
+  const categoryId = sp.get('categoryId') ?? '';
   const status = (sp.get('status') as PublishStatus | null) ?? '';
   const page = parseInt(sp.get('page') ?? '1', 10);
   const pageSize = parseInt(sp.get('pageSize') ?? '20', 10);
   const search = sp.get('q') ?? '';
+
+  useEffect(() => {
+    adminApi.listCategories().then(setCategories).catch(console.error);
+  }, []);
 
   // Local state for search input
   const [searchTerm, setSearchTerm] = useState(search);
@@ -93,14 +98,13 @@ export function ContentsPage() {
 
   const queryParams = useMemo(() => {
     const q = new URLSearchParams();
-    // Force type to POST
-    q.set('type', 'POST');
+    if (categoryId && categoryId !== '') q.set('categoryId', categoryId);
     if (status) q.set('status', status);
     if (search) q.set('q', search);
     q.set('page', page.toString());
     q.set('pageSize', pageSize.toString());
     return q;
-  }, [status, page, pageSize, search]);
+  }, [categoryId, status, page, pageSize, search]);
 
   useEffect(() => {
     let cancelled = false;
@@ -151,8 +155,12 @@ export function ContentsPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-[#4D0000]">Quản lý Bài viết</h1>
-          <p className="text-sm text-stone-600">Danh sách các bài viết tin tức</p>
+          <h1 className="text-2xl font-bold text-[#4D0000]">
+            Quản lý Bài viết
+          </h1>
+          <p className="text-sm text-stone-600">
+            Danh sách các bài viết tin tức
+          </p>
         </div>
         <Link
           href="/admin/contents/new"
@@ -173,7 +181,18 @@ export function ContentsPage() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              {/* Type selector removed as we only support POST now */}
+              <select
+                value={categoryId}
+                onChange={(e) => handleFilter('categoryId', e.target.value)}
+                className="rounded-lg border-stone-200 py-1.5 text-sm focus:border-[#4D0000] focus:ring-[#4D0000]"
+              >
+                <option value="">Tất cả chuyên mục</option>
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
 
               <select
                 value={status}
@@ -189,7 +208,10 @@ export function ContentsPage() {
           </div>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearchSubmit} className="relative w-full max-w-sm">
+          <form
+            onSubmit={handleSearchSubmit}
+            className="relative w-full max-w-sm"
+          >
             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               <MagnifyingGlassIcon className="h-5 w-5 text-stone-400" />
             </div>
@@ -207,9 +229,11 @@ export function ContentsPage() {
       {/* Content Table */}
       <div className="overflow-hidden rounded-xl border border-[#E5E1DA] bg-white shadow-sm">
         {loading && !data && (
-          <div className="p-8 text-center text-stone-500">Đang tải dữ liệu...</div>
+          <div className="p-8 text-center text-stone-500">
+            Đang tải dữ liệu...
+          </div>
         )}
-        
+
         {error && (
           <div className="bg-red-50 p-4 text-center text-sm text-red-600">
             Lỗi tải dữ liệu: {error}
@@ -221,41 +245,65 @@ export function ContentsPage() {
             <table className="w-full text-left text-sm">
               <thead className="bg-[#4D0000] text-[#FFF9A7]">
                 <tr>
-                  <th className="whitespace-nowrap px-6 py-3 font-semibold">Tiêu đề</th>
-                  <th className="whitespace-nowrap px-6 py-3 font-semibold">Trạng thái</th>
-                  <th className="whitespace-nowrap px-6 py-3 font-semibold">Cập nhật</th>
-                  <th className="whitespace-nowrap px-6 py-3 font-semibold text-right">Thao tác</th>
+                  <th className="whitespace-nowrap px-6 py-3 font-semibold">
+                    Tiêu đề
+                  </th>
+                  <th className="whitespace-nowrap px-6 py-3 font-semibold">
+                    Chuyên mục
+                  </th>
+                  <th className="whitespace-nowrap px-6 py-3 font-semibold">
+                    Trạng thái
+                  </th>
+                  <th className="whitespace-nowrap px-6 py-3 font-semibold">
+                    Cập nhật
+                  </th>
+                  <th className="whitespace-nowrap px-6 py-3 font-semibold text-right">
+                    Thao tác
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {data.items.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-8 text-center text-stone-500">
+                    <td
+                      colSpan={5}
+                      className="px-6 py-8 text-center text-stone-500"
+                    >
                       Không tìm thấy bài viết nào.
                     </td>
                   </tr>
                 ) : (
                   data.items.map((item) => (
-                    <tr 
-                      key={item.id} 
+                    <tr
+                      key={item.id}
                       className="group transition-colors hover:bg-stone-50"
                     >
                       <td className="px-6 py-4">
-                        <Link 
+                        <Link
                           href={`/admin/contents/${item.id}`}
                           className="font-medium text-[#4D0000] hover:text-[#E75739] hover:underline"
                         >
                           {item.title}
                         </Link>
-                        <div className="mt-1 text-xs text-stone-400 font-mono truncate max-w-xs" title={item.slug}>
+                        <div
+                          className="mt-1 text-xs text-stone-400 font-mono truncate max-w-xs"
+                          title={item.slug}
+                        >
                           /{item.slug}
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <StatusBadge status={item.publishStatus} />
+                        <span className="inline-flex items-center rounded-full bg-stone-100 px-2.5 py-0.5 text-xs font-medium text-stone-800">
+                          {item.category?.name || '—'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <StatusBadge status={item.status} />
                       </td>
                       <td className="px-6 py-4 text-stone-500">
-                        {new Date(item.updatedAt || item.createdAt).toLocaleDateString('vi-VN')}
+                        {new Date(
+                          item.updatedAt || item.createdAt || Date.now(),
+                        ).toLocaleDateString('vi-VN')}
                       </td>
                       <td className="px-6 py-4 text-right">
                         <Link
@@ -272,25 +320,35 @@ export function ContentsPage() {
             </table>
           </div>
         )}
-        
+
         {/* Pagination */}
         {data && (
-          <div className="border-t border-stone-100 bg-stone-50 px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center justify-between border-t border-stone-100 bg-stone-50 px-6 py-4">
             <span className="text-sm text-stone-600">
-              Hiển thị {(data.page - 1) * data.pageSize + 1} đến {Math.min(data.page * data.pageSize, data.total)} trong số {data.total} kết quả
+              Hiển thị{' '}
+              <span className="font-medium">
+                {data.items.length === 0 ? 0 : (page - 1) * pageSize + 1}
+              </span>{' '}
+              đến{' '}
+              <span className="font-medium">
+                {data.items.length === 0
+                  ? 0
+                  : (page - 1) * pageSize + data.items.length}
+              </span>{' '}
+              trong số <span className="font-medium">{data.total}</span> kết quả
             </span>
             <div className="flex items-center gap-2">
               <button
-                disabled={data.page <= 1}
-                onClick={() => handlePageChange(data.page - 1)}
-                className="rounded border border-stone-300 bg-white px-3 py-1 text-sm text-stone-600 hover:bg-stone-50 disabled:opacity-50"
+                disabled={page <= 1}
+                onClick={() => handlePageChange(page - 1)}
+                className="rounded border border-stone-300 bg-white px-3 py-1 text-sm text-stone-600 hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Trước
               </button>
               <button
-                disabled={data.page * data.pageSize >= data.total}
-                onClick={() => handlePageChange(data.page + 1)}
-                className="rounded border border-stone-300 bg-white px-3 py-1 text-sm text-stone-600 hover:bg-stone-50 disabled:opacity-50"
+                disabled={page * pageSize >= data.total}
+                onClick={() => handlePageChange(page + 1)}
+                className="rounded border border-stone-300 bg-white px-3 py-1 text-sm text-stone-600 hover:bg-stone-50 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Sau
               </button>

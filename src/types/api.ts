@@ -1,22 +1,28 @@
-export type ContentType = 'DISEASE' | 'SERVICE' | 'HERB' | 'POST';
-
 export type PublishStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
 export type ContentSummary = {
   id: string;
-  type: ContentType;
-  slug: string;
+  status: PublishStatus;
+  categoryId: string;
+  category?: Category;
   title: string;
+  slug: string;
   excerpt?: string | null;
   coverImageId?: string | null;
-  cover?: string | null; // deprecated
+  coverImage?: { url: string } | null;
+  coverAlt?: string | null;
+  metaTitle?: string | null;
+  metaDescription?: string | null;
   ogImageId?: string | null;
-  ogImage?: string | null; // deprecated
-  publishStatus: PublishStatus;
+  medicalRelated: boolean;
+  disclaimerEnabled: boolean;
+  disclaimerText?: string | null;
   publishedAt?: string | null;
-  updatedAt?: string | null;
+  createdById?: string | null;
   createdAt?: string | null;
+  updatedAt?: string | null;
   authorId?: string | null;
+  authorName?: string | null;
 };
 
 export type ContentDetail = ContentSummary & {
@@ -25,6 +31,8 @@ export type ContentDetail = ContentSummary & {
   metaDescription?: string | null;
   disclaimerEnabled?: boolean | null;
   disclaimerText?: string | null;
+  ok?: boolean;
+  error?: string | null;
 };
 
 export type LeadPayload = {
@@ -51,7 +59,7 @@ export type PaginatedResponse<T> = {
   pageSize: number;
 };
 
-export type ApiOk = { ok: true };
+export type ApiOk = { ok: true; error: string | null };
 
 export type JsonObject = Record<string, unknown>;
 
@@ -63,7 +71,7 @@ export type AdminLoginInput = {
 export type AdminContentListResponse = PaginatedResponse<ContentSummary>;
 
 export type AdminContentCreateInput = {
-  type: ContentType;
+  categoryId: string;
   title: string;
   slug: string;
   html?: string;
@@ -73,13 +81,19 @@ export type AdminContentCreateInput = {
   coverAlt?: string;
   publishedAt?: string | null;
   createdById?: string | null;
+  authorName?: string | null;
   ogImageId?: string | null;
   excerpt?: string;
   disclaimerEnabled?: boolean;
   disclaimerText?: string;
 };
 
-export type AdminContentUpdateInput = JsonObject;
+export type AdminContentUpdateInput = JsonObject & {
+  authorName?: string | null;
+  createdById?: string | null;
+  publishedAt?: string | null;
+  coverImageId?: string | null;
+};
 
 export type AdminContentResponse = ContentDetail;
 
@@ -109,7 +123,5 @@ export type Category = {
   id: string;
   name: string;
   slug: string;
-  scope?: string | null;
-  contentsCount: number;
-  color?: string | null;
+  contentsCount?: number;
 };
