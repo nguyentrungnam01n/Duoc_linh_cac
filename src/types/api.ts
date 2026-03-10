@@ -39,6 +39,7 @@ export type LeadPayload = {
   fullName: string;
   phone: string;
   email?: string;
+  topic?: string;
   message: string;
   sourceUrl?: string;
   company?: string;
@@ -102,6 +103,7 @@ export type AdminLead = {
   fullName: string;
   phone: string;
   email?: string | null;
+  topic?: string | null;
   message?: string | null;
   sourceUrl?: string | null;
   createdAt?: string | null;

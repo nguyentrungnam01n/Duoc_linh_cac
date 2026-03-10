@@ -15,6 +15,7 @@ import bannerImage from '@/assets/banner/banner.png';
 import bigLine from '@/assets/line/big-line.png';
 import smallLine from '@/assets/line/small-line.png';
 import localFont from 'next/font/local';
+import { Reveal } from '@/components';
 
 export const dynamic = 'force-dynamic';
 
@@ -71,7 +72,7 @@ const bigShouldersStencilDisplay = localFont({
 export default async function HomePage() {
   return (
     <div className="">
-      <section className="relative min-h-[1000px] w-full overflow-hidden bg-[#4D0000]">
+      <section className="relative min-h-[1000px] w-full overflow-hidden bg-[#760000]/90 ">
         <Image
           src={backgroundSection1}
           alt=""
@@ -191,7 +192,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="relative min-h-[3000px] w-full overflow-hidden bg-[#4D0000]">
+      <section className="relative min-h-[3000px] w-full overflow-hidden bg-[#760000]/90">
         <Image
           src={backgroundSection2}
           alt=""
@@ -334,45 +335,49 @@ export default async function HomePage() {
                 {/* Box 4 Text Overlay */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center z-10 px-4 pt-4">
                   {/* Title */}
-                  <h3
-                    className={`${bigShouldersDisplay.className} text-center uppercase`}
-                    style={{
-                      width: '386px',
-                      maxWidth: '90%',
-                      fontWeight: 600,
-                      fontSize: '40.6px',
-                      lineHeight: '49px',
-                      letterSpacing: '-0.03em',
-                      color: '#B90407',
-                      marginBottom: '64px',
-                    }}
-                  >
-                    Phương châm của dược linh các
-                  </h3>
+                  <Reveal>
+                    <h3
+                      className={`${bigShouldersDisplay.className} text-center uppercase`}
+                      style={{
+                        width: '386px',
+                        maxWidth: '100%',
+                        fontWeight: 600,
+                        fontSize: '40.6px',
+                        lineHeight: '49px',
+                        letterSpacing: '-0.03em',
+                        color: '#B90407',
+                        marginBottom: '64px',
+                      }}
+                    >
+                      Phương châm của dược linh các
+                    </h3>
+                  </Reveal>
 
                   {/* Slogan */}
-                  <p
-                    className={`${bigShouldersDisplay.className} text-center uppercase`}
-                    style={{
-                      width: '380px',
-                      maxWidth: '90%',
-                      fontWeight: 600,
-                      fontSize: '26.85px',
-                      lineHeight: '32px',
-                      letterSpacing: '-0.03em',
-                      color: '#B90407',
-                      fontFeatureSettings: "'salt' on, 'kern' off",
-                    }}
-                  >
-                    “Thuận Theo Tự Nhiên – Thân Khỏe Tâm An
-                    <br className="hidden md:block" />
-                    Nghiệp Chướng Tiêu Tan – Chân Mệnh Vững Bền"
-                  </p>
+                  <Reveal delay={200}>
+                    <p
+                      className={`${bigShouldersDisplay.className} text-center uppercase`}
+                      style={{
+                        width: '380px',
+                        maxWidth: '100%',
+                        fontWeight: 600,
+                        fontSize: '26.85px',
+                        lineHeight: '32px',
+                        letterSpacing: '-0.03em',
+                        color: '#B90407',
+                        fontFeatureSettings: "'salt' on, 'kern' off",
+                      }}
+                    >
+                      “Thuận Theo Tự Nhiên – Thân Khỏe Tâm An
+                      <br className="hidden md:block" />
+                      Nghiệp Chướng Tiêu Tan – Chân Mệnh Vững Bền"
+                    </p>
+                  </Reveal>
                 </div>
               </div>
 
               {/* Decoration Line below Box 4 */}
-              <div className="mt-16 w-full max-w-[700px] flex items-center justify-center">
+              <Reveal className="mt-16 w-full max-w-[700px] flex items-center justify-center">
                 <Image
                   src={bigLine}
                   alt="Decoration Line"
@@ -382,28 +387,34 @@ export default async function HomePage() {
                     height: 'auto',
                   }}
                 />
-              </div>
+              </Reveal>
 
               {/* New Footer Text */}
-              <h3
-                className={`${bigShouldersDisplay.className} text-center uppercase mt-12 block`}
-                style={{
-                  width: '666px',
-                  maxWidth: '90%',
-                  fontWeight: 600,
-                  fontSize: '44.6px',
-                  lineHeight: '53px',
-                  letterSpacing: '-0.03em',
-                  color: '#FFE7B6',
-                  fontFeatureSettings: "'salt' on, 'kern' off",
-                }}
-              >
-                "Chúc mừng bạn hữu duyên biết đến DƯỢC LINH CÁC
-                <br /> Tại sao vậy?"
-              </h3>
+              <Reveal delay={200}>
+                <h3
+                  className={`${bigShouldersDisplay.className} text-center uppercase mt-12 block`}
+                  style={{
+                    width: '666px',
+                    maxWidth: '100%',
+                    fontWeight: 600,
+                    fontSize: '44.6px',
+                    lineHeight: '53px',
+                    letterSpacing: '-0.03em',
+                    color: '#FFE7B6',
+                    fontFeatureSettings: "'salt' on, 'kern' off",
+                  }}
+                >
+                  "Chúc mừng bạn hữu duyên biết đến DƯỢC LINH CÁC
+                  <br /> Tại sao vậy?"
+                </h3>
+              </Reveal>
 
               {/* SECTION: NĂNG LỰC CHẨN ĐOÁN */}
-              <div className="flex flex-col items-center mt-12 relative w-full max-w-[800px]">
+              <Reveal
+                width="w-full"
+                className="flex flex-col items-center mt-12 relative max-w-[800px]"
+                delay={400}
+              >
                 {/* Header with Small Line Icon */}
                 <div className="flex items-center gap-4 mb-4">
                   <div className="relative w-[86px] h-[86px] flex-shrink-0">
@@ -459,12 +470,12 @@ export default async function HomePage() {
                     “vượt trên kỳ vọng”của bệnh nhân
                   </p>
                 </div>
-              </div>
+              </Reveal>
 
               {/* 3 TEXT BOXES (1, 2, 3) */}
               <div className="flex flex-col gap-10 mt-12 w-full max-w-[1000px] items-center pb-20">
                 {/* Box 1 */}
-                <div className="relative w-full">
+                <Reveal width="w-full" className="relative" dir="left">
                   <Image
                     src={textBox1}
                     alt="Text Box 1"
@@ -519,10 +530,10 @@ export default async function HomePage() {
                       mạnh Huyền Cơ và khắc phục những điểm yếu nêu trên.
                     </p>
                   </div>
-                </div>
+                </Reveal>
 
                 {/* Box 2 */}
-                <div className="relative w-full">
+                <Reveal width="w-full" className="relative" dir="right">
                   <Image
                     src={textBox2}
                     alt="Text Box 2"
@@ -562,10 +573,10 @@ export default async function HomePage() {
                       nguyên liệu của nhiều Y Gia.
                     </p>
                   </div>
-                </div>
+                </Reveal>
 
                 {/* Box 3 */}
-                <div className="relative w-full">
+                <Reveal width="w-full" className="relative" dir="left">
                   <Image
                     src={textBox3}
                     alt="Text Box 3"
@@ -601,95 +612,109 @@ export default async function HomePage() {
                       chỉnh tâm-sửa tính.
                     </p>
                   </div>
-                </div>
+                </Reveal>
 
-                {/* Decoration Line below Box 3 */}
-                <div className="w-full max-w-[700px] flex items-center justify-center">
-                  <Image
-                    src={bigLine}
-                    alt="Decoration Line"
-                    className="object-contain"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                    }}
-                  />
-                </div>
-
-                {/* Text 1: ĐỂ HỘI ĐỦ DUYÊN... */}
-                <h3
-                  className={`${bigShouldersDisplay.className} text-center uppercase`}
-                  style={{
-                    width: '702px',
-                    maxWidth: '90%',
-                    fontWeight: 600,
-                    fontSize: '44.6px',
-                    lineHeight: '53px',
-                    letterSpacing: '-0.03em',
-                    color: '#FFE7B6',
-                    fontFeatureSettings: "'salt' on, 'kern' off",
-                  }}
-                >
-                  ĐỂ HỘI ĐỦ DUYÊN ĐẾN DƯỢC LINH CÁC BẠN CẦN BIẾT THÊM
-                </h3>
-
-                {/* Text 2: Thông điệp di huấn... */}
-                <h4
-                  className={`${bigShouldersStencilDisplay.className} text-center`}
-                  style={{
-                    width: '492px',
-                    maxWidth: '90%',
-                    fontWeight: 400,
-                    fontSize: '31.96px',
-                    lineHeight: '38px',
-                    letterSpacing: '0.01em',
-                    color: '#FFE7B6',
-                  }}
-                >
-                  Thông điệp di huấn của Tông Môn:
-                </h4>
-                {/* Big Box Image */}
-                <div className="relative w-full max-w-[800px] flex justify-center mt-8">
-                  <Image
-                    src={bigBox}
-                    alt="Big Box"
-                    className="w-full h-auto object-contain"
-                  />
-                  <p
-                    className={`${bigShouldersDisplay.className} absolute top-[15%] left-1/2 -translate-x-1/2 text-center uppercase`}
-                    style={{
-                      width: '368px',
-                      maxWidth: '90%',
-                      fontWeight: 600,
-                      fontSize: '27px',
-                      lineHeight: '32px',
-                      letterSpacing: '-0.03em',
-                      color: '#FFF017',
-                      fontFeatureSettings: "'salt' on, 'kern' off",
-                    }}
+                <div className="flex flex-col w-full items-center gap-4">
+                  {/* Decoration Line below Box 3 */}
+                  <Reveal
+                    width="w-full"
+                    className="max-w-[700px] flex items-center justify-center"
                   >
-                    THIÊN VŨ TUY KHOAN BẤT NHUẬN VÔ CĂN CHI THẢO THẦN Y QUẢNG
-                    ĐẠI NAN ĐỘ BẤT TÍN CHI NHÂN
-                  </p>
-                  <p
-                    className={`${bigShouldersDisplay.className} absolute top-[50%] left-1/2 -translate-x-1/2 text-center uppercase pt-6`}
-                    style={{
-                      width: '630px',
-                      maxWidth: '90%',
-                      fontWeight: 600,
-                      fontSize: '27px',
-                      lineHeight: '32px',
-                      letterSpacing: '-0.03em',
-                      color: '#FFF017',
-                      fontFeatureSettings: "'salt' on, 'kern' off",
-                    }}
+                    <Image
+                      src={bigLine}
+                      alt="Decoration Line"
+                      className="object-contain"
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                      }}
+                    />
+                  </Reveal>
+
+                  {/* Text 1: ĐỂ HỘI ĐỦ DUYÊN... */}
+                  <Reveal delay={200}>
+                    <h3
+                      className={`${bigShouldersDisplay.className} text-center uppercase`}
+                      style={{
+                        width: '782px',
+                        maxWidth: '100%',
+                        fontWeight: 600,
+                        fontSize: '44.6px',
+                        lineHeight: '53px',
+                        letterSpacing: '-0.03em',
+                        color: '#FFE7B6',
+                        fontFeatureSettings: "'salt' on, 'kern' off",
+                      }}
+                    >
+                      ĐỂ HỘI ĐỦ DUYÊN ĐẾN DƯỢC LINH CÁC BẠN CẦN BIẾT THÊM
+                    </h3>
+                  </Reveal>
+
+                  {/* Text 2: Thông điệp di huấn... */}
+                  <Reveal delay={400}>
+                    <h4
+                      className={`${bigShouldersStencilDisplay.className} text-center`}
+                      style={{
+                        width: '492px',
+                        maxWidth: '100%',
+                        fontWeight: 400,
+                        fontSize: '31.96px',
+                        lineHeight: '38px',
+                        letterSpacing: '0.01em',
+                        color: '#FFE7B6',
+                      }}
+                    >
+                      Thông điệp di huấn của Tông Môn:
+                    </h4>
+                  </Reveal>
+
+                  {/* Big Box Image */}
+                  <Reveal
+                    width="w-full"
+                    className="relative max-w-[800px] flex justify-center"
+                    delay={600}
                   >
-                    Trời có cho mưa thuận gió hoà cũng không làm tươi nhuận
-                    những cây đã hỏng gốc rễ.
-                    <br />
-                    Tài giỏi độ lượng như Thần Y cũng không chữa khỏi cho người
-                    thiếu lòng tin – tâm còn bất tín.
-                  </p>
+                    <Image
+                      src={bigBox}
+                      alt="Big Box"
+                      className="w-full h-auto object-contain"
+                    />
+                    <p
+                      className={`${bigShouldersDisplay.className} absolute top-[15%] left-1/2 -translate-x-1/2 text-center uppercase`}
+                      style={{
+                        width: '368px',
+                        maxWidth: '100%',
+                        fontWeight: 600,
+                        fontSize: '27px',
+                        lineHeight: '32px',
+                        letterSpacing: '-0.03em',
+                        color: '#FFF017',
+                        fontFeatureSettings: "'salt' on, 'kern' off",
+                      }}
+                    >
+                      THIÊN VŨ TUY KHOAN BẤT NHUẬN VÔ CĂN CHI THẢO THẦN Y QUẢNG
+                      ĐẠI NAN ĐỘ BẤT TÍN CHI NHÂN
+                    </p>
+                    <p
+                      className={`${bigShouldersDisplay.className} absolute top-[50%] left-1/2 -translate-x-1/2 text-center uppercase pt-6`}
+                      style={{
+                        width: '630px',
+                        maxWidth: '100%',
+                        fontWeight: 600,
+                        fontSize: '27px',
+                        lineHeight: '32px',
+                        letterSpacing: '-0.03em',
+                        color: '#FFF017',
+                        fontFeatureSettings: "'salt' on, 'kern' off",
+                      }}
+                    >
+                      Trời có cho mưa thuận gió hoà cũng không làm tươi nhuận
+                      những cây đã hỏng gốc rễ.
+                      <br />
+                      Tài giỏi độ lượng như Thần Y cũng không chữa khỏi cho
+                      người thiếu lòng tin – tâm còn bất tín.
+                    </p>
+                  </Reveal>
                 </div>
               </div>
             </div>

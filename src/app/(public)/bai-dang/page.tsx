@@ -7,16 +7,15 @@ import bannerImage from '@/assets/banner/banner-bai-dang.png';
 import backgroundImage from '@/assets/background/background-baidang.png';
 import titleBanner from '@/assets/banner/title-banner.png';
 import navbarBox from '@/assets/boxes/navbar-box.png';
-import templateImg1 from '@/assets/img/template-img-1.png';
-import templateImg2 from '@/assets/img/template-img-2.png';
-import templateImg3 from '@/assets/img/template-img-3.png';
-import templateImg4 from '@/assets/img/template-img-4.png';
-import templateImg5 from '@/assets/img/template-img-5.png';
-import templateImg6 from '@/assets/img/template-img-6.png';
-import templateImg7 from '@/assets/img/template-img-7.png';
 import baidangBox from '@/assets/boxes/baidang-box.png';
 import paginationBox from '@/assets/boxes/pagination-box.png';
 import { AutoScroll, SearchInput } from '@/components';
+import {
+  fetchCategories,
+  fetchContentList,
+  fetchFeaturedContents,
+} from '@/lib/api';
+import type { Category } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -50,143 +49,59 @@ const bigShouldersDisplay = localFont({
   display: 'swap',
 });
 
-// Mock Data (Mở rộng lên 12 bài để test phân trang)
-const BASE_POSTS = [
-  {
-    id: 1,
-    image: templateImg4,
-    category: 'Sức khỏe',
-    categoryColor: '#F9FFDC',
-    title: 'GIỮ GÌN SỨC KHỎE CỘNG ĐỒNG BẰNG TINH HOA DÂN TÔC',
-    slug: 'giu-gin-suc-khoe-cong-dong-bang-tinh-hoa-dan-toc',
-    description:
-      'Y học Cổ truyền là một kho tàng tri thức y học được truyền lại qua hàng nghìn năm, dựa trên nguyên lý cân bằng âm dương, điều hòa khí huyết và sử dụng dược liệu thiên nhiên.',
-    date: '24.1.2026',
-    author: 'Nguyễn Văn A',
-  },
-  {
-    id: 2,
-    image: templateImg5,
-    category: 'Sức khỏe',
-    categoryColor: '#FFF9A7',
-    title: 'VÌ SAO NÊN ĐI KHÁM Ở DƯỢC LINH CÁC?',
-    slug: 'vi-sao-nen-di-kham-o-duoc-linh-cac',
-    description:
-      'Dược Linh Các với những giá trị lâu đời không chỉ mang đến phương pháp chữa bệnh tự nhiên, toàn diện mà còn mở ra nhiều hướng nghiên cứu tiềm năng trong lĩnh vực khoa học sức khỏe.',
-    date: '24.1.2026',
-    author: 'Nguyễn Văn A',
-  },
-  {
-    id: 3,
-    image: templateImg6,
-    category: 'Sức khỏe',
-    categoryColor: '#FFF9A7',
-    title: 'BỘ PHẬN QUAN TRỌNG KHÔNG THỂ TÁCH RỜI TRONG CHĂM SÓC SỨC KHỎE',
-    slug: 'bo-phan-quan-trong-khong-the-tach-roi-trong-cham-soc-suc-khoe',
-    description:
-      'Y học cổ truyền (YHCT) Việt Nam đã được xác định là một bộ phận quan trọng trong hệ thống y tế để bảo vệ, chăm sóc sức khỏe nhân dân.',
-    date: '24.1.2026',
-    author: 'Nguyễn Văn A',
-  },
-  {
-    id: 4,
-    image: templateImg7,
-    category: 'Sức khỏe',
-    categoryColor: '#FFF9A7',
-    title:
-      'Y HỌC CỔ TRUYỀN LÀ DI SẢN VĂN HOÁ QUÝ CẦN ĐƯỢC BẢO TỒN VÀ PHÁT TRIỂN',
-    slug: 'y-hoc-co-truyen-la-di-san-van-hoa-quy-can-duoc-bao-ton-va-phat-trien',
-    description:
-      'Theo Thứ trưởng Bộ Y tế Đỗ Xuân Tuyên, y học cổ truyền không chỉ là phương pháp chữa bệnh mà còn là biểu tượng của trí tuệ và tinh thần tự cường dân tộc.',
-    date: '24.1.2026',
-    author: 'Nguyễn Văn A',
-  },
-];
-
-const MOCK_POSTS = [
-  ...BASE_POSTS,
-  ...BASE_POSTS.map((p) => ({
-    ...p,
-    id: p.id + 4,
-    title: p.title + ' (Trang 2)',
-  })),
-  ...BASE_POSTS.map((p) => ({
-    ...p,
-    id: p.id + 8,
-    title: p.title + ' (Trang 3)',
-  })),
-];
-
-const FEATURED_POSTS = [
-  {
-    id: 1,
-    img: templateImg1,
-    title: 'Có nên sử dụng thuốc nam?',
-    slug: 'co-nen-su-dung-thuoc-nam',
-    date: '24.01.2026',
-  },
-  {
-    id: 2,
-    img: templateImg2,
-    title: 'Triển lãm "Di sản của Hải Thượng Lãn Ông Lê Hữu Trác"',
-    slug: 'trien-lam-di-san-hai-thuong-lan-ong',
-    date: '20.01.2026',
-  },
-  {
-    id: 3,
-    img: templateImg3,
-    title: 'Chữa bệnh bằng y học cổ truyền an toàn, hiệu quả',
-    slug: 'chua-benh-bang-y-hoc-co-truyen',
-    date: '15.01.2026',
-  },
-];
-
-const MOCK_CATEGORIES = [
-  { id: 1, name: 'Sức khỏe' },
-  { id: 2, name: 'Đông Y' },
-  { id: 3, name: 'Châm cứu' },
-  { id: 4, name: 'Dược liệu' },
-  { id: 5, name: 'Mẹo vặt' },
-];
-
 const ITEMS_PER_PAGE = 4;
 
+const CATEGORY_COLORS = ['#F9FFDC', '#FFF9A7', '#D7F9FA', '#FFD6E0'];
+
 export default async function PostListPage(props: {
-  searchParams: Promise<{ page?: string; query?: string }>;
+  searchParams: Promise<{ page?: string; query?: string; category?: string }>;
 }) {
   const searchParams = await props.searchParams;
   const currentPage = Number(searchParams?.page) || 1;
   const query = searchParams?.query || '';
-  const lowerQuery = query.toLowerCase();
+  const categorySlug = searchParams?.category || '';
 
-  const filteredPosts = MOCK_POSTS.filter((post) => {
-    return (
-      post.title.toLowerCase().includes(lowerQuery) ||
-      post.description.toLowerCase().includes(lowerQuery) ||
-      post.category.toLowerCase().includes(lowerQuery)
-    );
-  });
+  const [categories, contentRes, featuredPosts] = await Promise.all([
+    fetchCategories().catch((err) => {
+      console.error('Failed to load categories', err);
+      return [] as Category[];
+    }),
+    fetchContentList({
+      page: currentPage,
+      pageSize: ITEMS_PER_PAGE,
+      q: query,
+      category: categorySlug,
+    }).catch((err) => {
+      console.error('Failed to load contents', err);
+      return { items: [], total: 0, page: 1, pageSize: ITEMS_PER_PAGE };
+    }),
+    fetchFeaturedContents().catch((err) => {
+      console.error('Failed to load featured contents', err);
+      return [];
+    }),
+  ]);
 
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const endIndex = startIndex + ITEMS_PER_PAGE;
-  const currentPosts = filteredPosts.slice(startIndex, endIndex);
-
-  const totalPages = Math.ceil(filteredPosts.length / ITEMS_PER_PAGE);
-  const rowsCount = Math.ceil(currentPosts.length / 2);
+  const posts = contentRes.items;
+  console.log('Loaded posts:', posts);
+  const pageSize = contentRes.pageSize || ITEMS_PER_PAGE;
+  const totalPages = Math.ceil(contentRes.total / pageSize);
+  const rowsCount = Math.ceil(posts.length / 2);
   const paginationTop = 400 + (rowsCount > 0 ? rowsCount : 1) * 592;
 
   const renderPaginationLinks = () => {
+    if (totalPages <= 1) return null;
     const links = [];
-    if (totalPages <= 1) return null; // Hide pagination if 1 page
-    for (let i = 1; i <= totalPages; i++) {
-      const isActive = i === currentPage;
+
+    const createLink = (page: number) => {
+      const isActive = page === currentPage;
       const params = new URLSearchParams();
       if (query) params.set('query', query);
-      params.set('page', i.toString());
+      if (categorySlug) params.set('category', categorySlug);
+      params.set('page', page.toString());
 
-      links.push(
+      return (
         <Link
-          key={i}
+          key={page}
           href={`?${params.toString()}`}
           scroll={false}
           className={`w-[45px] h-[46px] flex items-center justify-center text-[20px] font-bold transition-all
@@ -196,10 +111,52 @@ export default async function PostListPage(props: {
             fontFamily: 'var(--font-big-shoulders-display)',
           }}
         >
-          {i}
-        </Link>,
+          {page}
+        </Link>
       );
+    };
+
+    const renderEllipsis = (key: string) => (
+      <span
+        key={key}
+        className="w-[45px] h-[46px] flex items-center justify-center text-[20px] font-bold text-[#8D6E63]"
+        style={{ fontFamily: 'var(--font-big-shoulders-display)' }}
+      >
+        ...
+      </span>
+    );
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        links.push(createLink(i));
+      }
+    } else {
+      // Always show first page
+      links.push(createLink(1));
+
+      if (currentPage > 3) {
+        links.push(renderEllipsis('start-ellipsis'));
+      }
+
+      // Show current page range
+      let start = Math.max(2, currentPage - 1);
+      let end = Math.min(totalPages - 1, currentPage + 1);
+
+      if (currentPage === 1) end = Math.min(totalPages - 1, start + 2);
+      if (currentPage === totalPages) start = Math.max(2, end - 2);
+
+      for (let i = start; i <= end; i++) {
+        links.push(createLink(i));
+      }
+
+      if (currentPage < totalPages - 2) {
+        links.push(renderEllipsis('end-ellipsis'));
+      }
+
+      // Always show last page
+      links.push(createLink(totalPages));
     }
+
     return links;
   };
 
@@ -217,7 +174,8 @@ export default async function PostListPage(props: {
 
       <section
         id="post-list-top"
-        className="relative min-h-[3550px] w-full overflow-hidden bg-[#4D0000]"
+        className="relative w-full overflow-hidden bg-[#760000]/90"
+        style={{ minHeight: `${paginationTop + 100}px` }}
       >
         <Image
           src={backgroundImage}
@@ -295,24 +253,29 @@ export default async function PostListPage(props: {
             </div>
 
             {/* Render Categories */}
-            {MOCK_CATEGORIES.map((category, index) => (
-              <div
-                key={category.id}
-                className={`absolute flex items-center cursor-pointer hover:underline ${beVietnamPro.className}`}
-                style={{
-                  width: '180px',
-                  height: '18px',
-                  left: '19px',
-                  top: `${92 + index * 22}px`, // Spacing of 22px
-                  fontWeight: 400,
-                  fontSize: '12px',
-                  lineHeight: '15px',
-                  color: '#AF0000',
-                }}
-              >
-                {category.name}
-              </div>
-            ))}
+            {categories.map((category, index) => {
+              const isSelected = category.slug === categorySlug;
+              return (
+                <Link
+                  key={category.id}
+                  href={isSelected ? '?' : `?category=${category.slug}`}
+                  scroll={false}
+                  className={`absolute flex items-center cursor-pointer hover:underline ${beVietnamPro.className}`}
+                  style={{
+                    width: '180px',
+                    height: '18px',
+                    left: '19px',
+                    top: `${92 + index * 22}px`, // Spacing of 22px
+                    fontWeight: isSelected ? 700 : 400,
+                    fontSize: '12px',
+                    lineHeight: '15px',
+                    color: '#AF0000',
+                  }}
+                >
+                  {category.name}
+                </Link>
+              );
+            })}
 
             {/* CÁC BÀI VIẾT NỔI BẬT */}
             <div
@@ -332,7 +295,7 @@ export default async function PostListPage(props: {
             </div>
 
             {/* List 3 bài nổi bật */}
-            {FEATURED_POSTS.map((post, index) => (
+            {featuredPosts.slice(0, 3).map((post, index) => (
               <div
                 key={post.id}
                 className="absolute flex items-start gap-3"
@@ -347,12 +310,16 @@ export default async function PostListPage(props: {
                   href={`/bai-dang/${post.slug}`}
                   className="relative w-[80px] h-[80px] shrink-0 border border-[#AF0000]/20 rounded-md overflow-hidden cursor-pointer group"
                 >
-                  <Image
-                    src={post.img}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-110"
-                  />
+                  {post.coverImage?.url ? (
+                    <Image
+                      src={post.coverImage.url}
+                      alt={post.coverAlt || post.title}
+                      fill
+                      className="object-cover transition-transform group-hover:scale-110"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-stone-200" />
+                  )}
                 </Link>
 
                 {/* Info */}
@@ -367,7 +334,9 @@ export default async function PostListPage(props: {
                   <span
                     className={`text-xs text-[#760000]/80 italic ${beVietnamPro.className}`}
                   >
-                    {post.date}
+                    {post.publishedAt
+                      ? new Date(post.publishedAt).toLocaleDateString('vi-VN')
+                      : ''}
                   </span>
                 </div>
               </div>
@@ -375,16 +344,17 @@ export default async function PostListPage(props: {
           </div>
 
           {/* Baidang Boxes */}
-          {currentPosts.map((post, index) => {
+          {posts.map((post, index) => {
             const isColumn2 = index % 2 !== 0;
             const rowIndex = Math.floor(index / 2);
             const topPosition = 400 + rowIndex * 592;
             const leftPosition = isColumn2 ? 602 : 149;
+            const catColor = CATEGORY_COLORS[index % CATEGORY_COLORS.length];
 
             return (
               <div
                 key={post.id}
-                className="absolute z-10"
+                className="absolute z-10 transition-transform duration-300 hover:-translate-y-2"
                 style={{
                   width: '426px',
                   height: '536px',
@@ -410,12 +380,18 @@ export default async function PostListPage(props: {
                     top: '16px',
                   }}
                 >
-                  <Image
-                    src={post.image}
-                    alt={`Template Img ${post.id}`}
-                    fill
-                    className="object-cover"
-                  />
+                  {post.coverImage?.url ? (
+                    <Image
+                      src={post.coverImage.url}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-stone-200 flex items-center justify-center text-stone-400">
+                      No Image
+                    </div>
+                  )}
                 </Link>
 
                 {/* Chuyên mục: */}
@@ -458,10 +434,10 @@ export default async function PostListPage(props: {
                     fontWeight: 400,
                     fontSize: '7.8168px',
                     lineHeight: '10px',
-                    color: post.categoryColor,
+                    color: catColor,
                   }}
                 >
-                  {post.category}
+                  {post.category?.name || 'Chung'}
                 </div>
 
                 {/* Title */}
@@ -479,7 +455,7 @@ export default async function PostListPage(props: {
                     color: '#760000',
                   }}
                 >
-                  {post.title}
+                  <span className="line-clamp-2">{post.title}</span>
                 </Link>
 
                 {/* Description */}
@@ -496,14 +472,14 @@ export default async function PostListPage(props: {
                     color: '#760000',
                   }}
                 >
-                  {post.description}
+                  <span className="line-clamp-2">{post.excerpt || '...'}</span>
                 </div>
 
                 {/* Date */}
                 <div
                   className={`absolute flex items-center ${beVietnamPro.className}`}
                   style={{
-                    width: '132px',
+                    width: '140px',
                     height: '51px',
                     left: '28px',
                     top: '452px',
@@ -513,7 +489,10 @@ export default async function PostListPage(props: {
                     color: '#760000',
                   }}
                 >
-                  Ngày đăng: {post.date}
+                  Ngày đăng:{' '}
+                  {post.publishedAt
+                    ? new Date(post.publishedAt).toLocaleDateString('vi-VN')
+                    : ''}
                 </div>
 
                 {/* | */}
@@ -537,7 +516,7 @@ export default async function PostListPage(props: {
                 <div
                   className={`absolute flex items-center ${beVietnamPro.className}`}
                   style={{
-                    width: '132px',
+                    width: '160px',
                     height: '51px',
                     left: '175px',
                     top: '452px',
@@ -547,7 +526,7 @@ export default async function PostListPage(props: {
                     color: '#760000',
                   }}
                 >
-                  Tác giả: {post.author}
+                  Tác giả: {post.authorName}
                 </div>
 
                 {/* Read more */}
@@ -599,7 +578,7 @@ export default async function PostListPage(props: {
             >
               {currentPage > 1 && (
                 <Link
-                  href={`?${new URLSearchParams({ ...(query ? { query } : {}), page: (currentPage - 1).toString() }).toString()}`}
+                  href={`?${new URLSearchParams({ ...(query ? { query } : {}), ...(categorySlug ? { category: categorySlug } : {}), page: (currentPage - 1).toString() }).toString()}`}
                   scroll={false}
                   style={{
                     fontWeight: 700,
@@ -644,7 +623,7 @@ export default async function PostListPage(props: {
             >
               {currentPage < totalPages && (
                 <Link
-                  href={`?${new URLSearchParams({ ...(query ? { query } : {}), page: (currentPage + 1).toString() }).toString()}`}
+                  href={`?${new URLSearchParams({ ...(query ? { query } : {}), ...(categorySlug ? { category: categorySlug } : {}), page: (currentPage + 1).toString() }).toString()}`}
                   scroll={false}
                   style={{
                     fontWeight: 700,

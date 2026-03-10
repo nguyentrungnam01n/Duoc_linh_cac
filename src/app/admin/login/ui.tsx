@@ -155,7 +155,7 @@ export function LoginForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full rounded-lg bg-[#4D0000] px-4 py-3 text-sm font-bold text-[#FFF9A7] shadow-sm transition-all hover:bg-[#3A0000] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#4D0000] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
+        className="w-full rounded-lg bg-[#760000]/90 px-4 py-3 text-sm font-bold text-[#FFF9A7] shadow-sm transition-all hover:bg-[#3A0000] hover:shadow-md focus:outline-none focus:ring-2 focus:ring-[#4D0000] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed group relative overflow-hidden"
       >
         <span className={loading ? 'opacity-0' : 'opacity-100'}>
           ĐĂNG NHẬP HỆ THỐNG

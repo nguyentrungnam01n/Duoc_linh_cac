@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function AdminLoginPage() {
   return (
     <div
-      className={`min-h-dvh flex items-center justify-center bg-[#4D0000] p-4 relative overflow-hidden ${beVietnamPro.className}`}
+      className={`min-h-dvh flex items-center justify-center bg-[#760000]/90 p-4 relative overflow-hidden ${beVietnamPro.className}`}
     >
       {/* Background decoration */}
       <div className="absolute top-[-50px] right-[-50px] w-[300px] h-[300px] rounded-full bg-[#E75739] blur-[100px] opacity-20" />

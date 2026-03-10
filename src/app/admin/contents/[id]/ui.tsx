@@ -226,7 +226,7 @@ export function ContentEditor({ id }: { id: string }) {
             <button
               onClick={handlePublish}
               disabled={submitting}
-              className="rounded-lg bg-[#4D0000] px-4 py-2 text-sm font-medium text-[#FFF9A7] shadow-sm hover:bg-[#3A0000] disabled:opacity-50"
+              className="rounded-lg bg-[#760000]/90 px-4 py-2 text-sm font-medium text-[#FFF9A7] shadow-sm hover:bg-[#3A0000] disabled:opacity-50"
             >
               Xuất bản
             </button>
@@ -332,7 +332,9 @@ export function ContentEditor({ id }: { id: string }) {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700">Slug</label>
+              <label className="text-sm font-medium text-stone-700">
+                Slug - Đường dẫn URL
+              </label>
               <input
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}

@@ -217,7 +217,9 @@ export function NewContentForm() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-stone-700">Slug</label>
+              <label className="text-sm font-medium text-stone-700">
+                Slug - Đường dẫn URL
+              </label>
               <input
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}

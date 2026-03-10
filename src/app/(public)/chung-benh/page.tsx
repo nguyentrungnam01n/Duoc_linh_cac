@@ -8,6 +8,7 @@ import chungBenhBox from '@/assets/boxes/chung-benh-box.png';
 import redBox from '@/assets/boxes/red-box.png';
 import cranePattern from '@/assets/patterns/crane-pattern.png';
 import Image from 'next/image';
+import { Reveal } from '@/components';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,7 +53,7 @@ export default async function DiseaseListPage() {
           priority
         />
       </div>
-      <section className="relative min-h-[2700px] w-full overflow-hidden bg-[#4D0000]">
+      <section className="relative min-h-[2500px] w-full overflow-hidden bg-[#760000]/90">
         <Image
           src={backgroundImage}
           alt=""
@@ -256,24 +257,27 @@ export default async function DiseaseListPage() {
           <div
             className="absolute z-10"
             style={{
-              top: '1536px',
+              top: '1436px',
               width: '1200px',
               height: '675px',
               left: '50%',
               transform: 'translateX(-50%)',
             }}
           >
-            <Image
-              src={cranePattern}
-              alt="Crane Pattern"
-              fill
-              className="object-contain"
-            />
+            <Reveal width="w-full" className="h-full">
+              <Image
+                src={cranePattern}
+                alt="Crane Pattern"
+                fill
+                className="object-contain"
+              />
+            </Reveal>
           </div>
+
           <div
             className="absolute z-10 flex items-center justify-center"
             style={{
-              top: '2200px',
+              top: '2000px',
               width: '757.05px',
               height: '382.31px',
               left: '50%',
@@ -286,29 +290,31 @@ export default async function DiseaseListPage() {
               fill
               className="object-contain -z-10"
             />
-            <div
-              className={`${bigShouldersDisplay.className} text-center uppercase`}
-              style={{
-                width: '630px',
-                fontSize: '27px',
-                fontWeight: 600,
-                lineHeight: '32px',
-                letterSpacing: '-0.03em',
-                color: '#FFF017',
-                fontFeatureSettings: "'salt' on, 'kern' off",
-              }}
-            >
-              Pháp trị của DLC tùy theo từng bệnh nhân với các chứng trạng kèm
-              theo khác nhau để lập pháp trị. Thường chứng trạng trên nếu ở thể
-              nhẹ chỉ cần lập phác đồ châm cứu hoặc bấm huyệt phục hồi công năng
-              nạp khí của thận dương là phế thông họng thoáng.
-              <br />
-              <br />
-              Trường hợp bệnh nặng hơn hay kèm theo các chứng bụng chướng đầy,
-              mắc tiểu không nhịn lâu do tùy khí hạ hãm, khí chèn bàng quan gây
-              áp lực mắc tiểu không nhịn lâu thì có thể phải lập phương dụng
-              dược “kê thuốc” dùng thuốc nam để điều trị.
-            </div>
+            <Reveal>
+              <div
+                className={`${bigShouldersDisplay.className} text-center uppercase`}
+                style={{
+                  width: '630px',
+                  fontSize: '27px',
+                  fontWeight: 600,
+                  lineHeight: '32px',
+                  letterSpacing: '-0.03em',
+                  color: '#FFF017',
+                  fontFeatureSettings: "'salt' on, 'kern' off",
+                }}
+              >
+                Pháp trị của DLC tùy theo từng bệnh nhân với các chứng trạng kèm
+                theo khác nhau để lập pháp trị. Thường chứng trạng trên nếu ở
+                thể nhẹ chỉ cần lập phác đồ châm cứu hoặc bấm huyệt phục hồi
+                công năng nạp khí của thận dương là phế thông họng thoáng.
+                <br />
+                <br />
+                Trường hợp bệnh nặng hơn hay kèm theo các chứng bụng chướng đầy,
+                mắc tiểu không nhịn lâu do tùy khí hạ hãm, khí chèn bàng quan
+                gây áp lực mắc tiểu không nhịn lâu thì có thể phải lập phương
+                dụng dược “kê thuốc” dùng thuốc nam để điều trị.
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>

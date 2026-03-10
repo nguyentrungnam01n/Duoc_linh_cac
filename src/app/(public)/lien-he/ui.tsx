@@ -13,11 +13,9 @@ const beVietnamPro = Be_Vietnam_Pro({
 type FormState = {
   fullName: string;
   phone: string;
-  address: string;
   email: string;
-  subject: string;
+  topic: string; // Changed from subject
   message: string;
-  file: File | null;
   company: string; // honeypot
 };
 
@@ -25,11 +23,9 @@ export function ContactForm() {
   const [form, setForm] = useState<FormState>({
     fullName: '',
     phone: '',
-    address: '',
     email: '',
-    subject: '',
+    topic: '',
     message: '',
-    file: null,
     company: '',
   });
   const [submitting, setSubmitting] = useState(false);
@@ -54,22 +50,12 @@ export function ContactForm() {
 
     setSubmitting(true);
     try {
-      // Append extra fields to message since backend doesn't support them directly
-      const fullMessage = [
-        form.subject ? `Chủ đề: ${form.subject}` : '',
-        form.address ? `Địa chỉ: ${form.address}` : '',
-        form.file ? `File đính kèm: ${form.file.name}` : '',
-        '\nNội dung:',
-        form.message,
-      ]
-        .filter(Boolean)
-        .join('\n');
-
       await submitLead({
         fullName: form.fullName,
         phone: form.phone,
         email: form.email || undefined,
-        message: fullMessage,
+        topic: form.topic || undefined,
+        message: form.message,
         company: form.company || undefined,
         sourceUrl: window.location.href,
       });
@@ -142,15 +128,6 @@ export function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <input
-          name="address"
-          value={form.address}
-          onChange={(e) => setForm({ ...form, address: e.target.value })}
-          className={inputClass}
-          placeholder="Địa chỉ"
-          autoComplete="street-address"
-        />
-
-        <input
           name="email"
           value={form.email}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -158,15 +135,15 @@ export function ContactForm() {
           placeholder="Email"
           autoComplete="email"
         />
-      </div>
 
-      <input
-        name="subject"
-        value={form.subject}
-        onChange={(e) => setForm({ ...form, subject: e.target.value })}
-        className={inputClass}
-        placeholder="Chủ đề"
-      />
+        <input
+          name="topic"
+          value={form.topic}
+          onChange={(e) => setForm({ ...form, topic: e.target.value })}
+          className={inputClass}
+          placeholder="Chủ đề"
+        />
+      </div>
 
       <textarea
         name="message"
@@ -175,37 +152,6 @@ export function ContactForm() {
         className={textareaClass}
         placeholder="Nội dung tư vấn"
       />
-
-      {/* File Attachment Section */}
-      <div className={`flex w-full items-center`}>
-        <label className="flex h-[35px] w-full cursor-pointer items-center rounded-[2px] bg-[#F9FFDC] overflow-hidden">
-          <span className="flex-1 px-4 text-[#3F3F3F] underline decoration-1 underline-offset-2 truncate">
-            {form.file ? form.file.name : 'Đính kèm file'}
-          </span>
-          <input
-            name="file"
-            type="file"
-            onChange={(e) =>
-              setForm({ ...form, file: e.target.files?.[0] || null })
-            }
-            className="hidden"
-          />
-          <div className="flex h-full w-[90px] items-center justify-center bg-[#BF351C]">
-            <span className="text-base text-[#F9FFDC]">Chọn</span>
-          </div>
-        </label>
-      </div>
-
-      <label className="hidden">
-        <span>company</span>
-        <input
-          name="company"
-          value={form.company}
-          onChange={(e) => setForm({ ...form, company: e.target.value })}
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </label>
 
       {error ? <p className="text-sm text-red-600">{error}</p> : null}
 

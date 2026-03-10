@@ -1,4 +1,5 @@
 import type {
+  Category,
   ContentDetail,
   ContentSummary,
   LeadPayload,
@@ -84,6 +85,19 @@ export async function fetchContentDetail(slug: string): Promise<ContentDetail> {
   return await fetchJson<ContentDetail>(`/api/public/contents/${slug}`);
 }
 
+export async function fetchFeaturedContents(
+  category?: string,
+  limit: number = 3,
+): Promise<ContentSummary[]> {
+  const params = new URLSearchParams();
+  if (category) params.append('category', category);
+  if (limit) params.append('limit', String(limit));
+
+  return await fetchJson<ContentSummary[]>(
+    `/api/public/contents/featured?${params.toString()}`,
+  );
+}
+
 export async function submitLead(payload: LeadPayload): Promise<{ ok: true }> {
   // Allow UI dev without backend.
   if (!getApiBase()) {
@@ -115,4 +129,8 @@ export async function submitLead(payload: LeadPayload): Promise<{ ok: true }> {
   }
 
   return (await res.json()) as { ok: true };
+}
+
+export async function fetchCategories(): Promise<Category[]> {
+  return await fetchJson<Category[]>('/api/public/categories');
 }

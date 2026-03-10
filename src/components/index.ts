@@ -6,3 +6,4 @@ export * from './Footer';
 export * from './Header';
 export * from './RichText';
 export * from './SearchInput';
+export * from './Reveal';

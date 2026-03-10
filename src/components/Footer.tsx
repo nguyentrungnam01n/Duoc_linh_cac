@@ -76,8 +76,8 @@ export function Footer() {
               <Link href="/dich-vu" className="block hover:underline">
                 Y TRÀ DƯỠNG SINH
               </Link>
-              <Link href="/dich-vu" className="block hover:underline">
-                TƯ VẤN
+              <Link href="/lien-he" className="block hover:underline">
+                LIÊN HỆ
               </Link>
               <Link href="/dich-vu" className="block hover:underline">
                 KHÁM BỆNH

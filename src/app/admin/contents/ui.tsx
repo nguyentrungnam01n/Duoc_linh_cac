@@ -243,7 +243,7 @@ export function ContentsPage() {
         {!loading && !error && data && (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-[#4D0000] text-[#FFF9A7]">
+              <thead className="bg-[#760000]/90 text-[#FFF9A7]">
                 <tr>
                   <th className="whitespace-nowrap px-6 py-3 font-semibold">
                     Tiêu đề

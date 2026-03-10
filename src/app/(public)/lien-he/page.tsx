@@ -41,7 +41,7 @@ export default function ContactPage() {
   return (
     <div className="">
       <div className="w-full">
-        <section className="relative min-h-[950px] w-full overflow-hidden bg-[#4D0000]">
+        <section className="relative min-h-[950px] w-full overflow-hidden bg-[#760000]/90">
           <Image
             src={backgroundImage}
             alt=""

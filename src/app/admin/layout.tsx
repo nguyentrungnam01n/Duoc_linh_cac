@@ -11,7 +11,7 @@ const beVietnamPro = Be_Vietnam_Pro({
 });
 
 const NAV_CLASSES =
-  'block px-4 py-2 rounded-md transition-colors hover:bg-[#760000] hover:text-[#FFF9A7]';
+  'block px-4 py-2 rounded-md transition-colors hover:bg-[#760000]/90 hover:text-[#FFF9A7]';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
@@ -34,7 +34,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
       <div className="flex min-h-[calc(100vh-73px)]">
         {/* Sidebar */}
-        <aside className="w-64 bg-[#4D0000] text-[#FFF9A7] hidden md:block shrink-0 shadow-lg">
+        <aside className="w-64 bg-[#760000]/90 text-[#FFF9A7] hidden md:block shrink-0 shadow-lg">
           <nav className="p-4 space-y-2 text-sm font-medium">
             <Link href="/admin" className={NAV_CLASSES}>
               📊 Tổng quan

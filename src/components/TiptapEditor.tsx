@@ -6,6 +6,24 @@ import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
 import { adminApi } from '@/lib/adminApi';
 
+const CustomImage = Image.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      width: {
+        default: null,
+      },
+      height: {
+        default: null,
+      },
+      style: {
+        default: 'display: block; margin-left: auto; margin-right: auto;',
+        parseHTML: (element) => element.getAttribute('style'),
+      },
+    };
+  },
+});
+
 const MenuBar = ({ editor }: { editor: Editor | null }) => {
   const [, forceUpdate] = useState(0);
 
@@ -43,7 +61,11 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         const res = (await adminApi.uploadMedia(formData)) as { url: string };
 
         if (res?.url) {
-          editor.chain().focus().setImage({ src: res.url }).run();
+          editor
+            .chain()
+            .focus()
+            .setImage({ src: res.url, width: 1200, height: 547 })
+            .run();
         }
       } catch (error) {
         console.error('Failed to upload image:', error);
@@ -54,7 +76,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-2 border-b border-stone-200 bg-stone-50 p-2">
+    <div className="sticky top-0 z-10 flex flex-wrap gap-2 rounded-t-lg border-b border-stone-200 bg-stone-50 p-2">
       <button
         type="button"
         onClick={() => {
@@ -63,7 +85,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('bold')
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -77,7 +99,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('italic')
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -91,7 +113,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('strike')
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -104,7 +126,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('heading', { level: 2 })
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -117,7 +139,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('heading', { level: 3 })
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -130,7 +152,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('bulletList')
-            ? 'bg-[#4D0000] text-white'
+            ? 'bg-[#760000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -141,7 +163,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         onClick={addImage}
         className="rounded px-2 py-1 text-sm font-medium text-stone-600 hover:bg-stone-200"
       >
-        Add Image
+        Add Image (Ưu tiên ảnh 1200x547)
       </button>
     </div>
   );
@@ -155,7 +177,7 @@ export default function TiptapEditor({
   onChange: (html: string) => void;
 }) {
   const editor = useEditor({
-    extensions: [StarterKit, Image],
+    extensions: [StarterKit, CustomImage],
     content: content,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
@@ -170,7 +192,7 @@ export default function TiptapEditor({
   });
 
   return (
-    <div className="overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm focus-within:ring-1 focus-within:ring-[#4D0000]">
+    <div className="rounded-lg border border-stone-200 bg-white shadow-sm focus-within:ring-1 focus-within:ring-[#4D0000]">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
