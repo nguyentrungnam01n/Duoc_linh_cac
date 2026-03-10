@@ -29,11 +29,11 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: '${API_BASE}/api/:path*',
+        destination: `${API_BASE}/api/:path*`,
       },
       {
         source: '/uploads/:path*',
-        destination: '${API_BASE}/uploads/:path*',
+        destination: `${API_BASE}/uploads/:path*`,
       },
     ];
   },
