@@ -201,7 +201,7 @@ export function CategoriesPage() {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="rounded-lg bg-[#760000]/90 px-4 py-2.5 text-sm font-medium text-white hover:bg-[#3A0000]"
+                className="rounded-lg bg-[#4D0000]/90 px-4 py-2.5 text-sm font-medium text-white hover:bg-[#3A0000]"
               >
                 {editingId ? 'Cập nhật' : 'Tạo mới'}
               </button>
@@ -228,7 +228,7 @@ export function CategoriesPage() {
         {!loading && !error && (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="bg-[#760000]/90 text-[#FFF9A7]">
+              <thead className="bg-[#4D0000]/90 text-[#FFF9A7]">
                 <tr>
                   <th className="px-6 py-3 font-semibold">Tên chuyên mục</th>
                   <th className="px-6 py-3 font-semibold">Slug (Đường dẫn)</th>

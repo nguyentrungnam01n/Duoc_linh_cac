@@ -56,7 +56,7 @@ export default function HerbListPage() {
           priority
         />
       </div>
-      <section className="relative min-h-[7150px] w-full overflow-hidden bg-[#760000]/90">
+      <section className="relative min-h-[7150px] w-full overflow-hidden bg-[#4D0000]/90">
         <Image
           src={backgroundImage}
           alt=""

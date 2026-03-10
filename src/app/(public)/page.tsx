@@ -72,7 +72,7 @@ const bigShouldersStencilDisplay = localFont({
 export default async function HomePage() {
   return (
     <div className="">
-      <section className="relative min-h-[1000px] w-full overflow-hidden bg-[#760000]/90 ">
+      <section className="relative min-h-[1000px] w-full overflow-hidden bg-[#4D0000]/90 ">
         <Image
           src={backgroundSection1}
           alt=""
@@ -192,7 +192,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="relative min-h-[3000px] w-full overflow-hidden bg-[#760000]/90">
+      <section className="relative min-h-[3000px] w-full overflow-hidden bg-[#4D0000]/90">
         <Image
           src={backgroundSection2}
           alt=""

@@ -1,5 +1,7 @@
 import type { NextConfig } from 'next';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://localhost:4000';
+
 const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
@@ -17,17 +19,21 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'duoclinhcac-be.onrender.com',
+      },
     ],
   },
   async rewrites() {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:4000/api/:path*',
+        destination: '${API_BASE}/api/:path*',
       },
       {
         source: '/uploads/:path*',
-        destination: 'http://localhost:4000/uploads/:path*',
+        destination: '${API_BASE}/uploads/:path*',
       },
     ];
   },

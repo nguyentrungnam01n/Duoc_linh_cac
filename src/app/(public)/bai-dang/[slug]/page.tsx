@@ -152,7 +152,7 @@ export default async function PostDetailPage({
           priority
         />
       </div>
-      <article className="relative w-full min-h-screen overflow-hidden bg-[#760000]/90 flex flex-col items-center pb-20">
+      <article className="relative w-full min-h-screen overflow-hidden bg-[#4D0000]/90 flex flex-col items-center pb-20">
         <Image
           src={backgroundImage}
           alt=""
@@ -231,7 +231,7 @@ export default async function PostDetailPage({
               </div>
             </div>
 
-            <div className="w-[1px] h-[20px] bg-[#760000]/90"></div>
+            <div className="w-[1px] h-[20px] bg-[#4D0000]/90"></div>
 
             <div
               className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}
@@ -242,7 +242,7 @@ export default async function PostDetailPage({
                 : ''}
             </div>
 
-            <div className="w-[1px] h-[20px] bg-[#760000]/90"></div>
+            <div className="w-[1px] h-[20px] bg-[#4D0000]/90"></div>
 
             <div
               className={`text-[#760000] ${beVietnamPro.className} text-[14px]`}

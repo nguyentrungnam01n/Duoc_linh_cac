@@ -26,7 +26,7 @@ export function AdminActions() {
       type="button"
       onClick={onLogout}
       disabled={loading}
-      className="group flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-[#4D0000] hover:bg-[#760000]/90 hover:text-[#FFF9A7] transition-all disabled:opacity-60 border border-[#4D0000]/20"
+      className="group flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-sm font-medium text-[#4D0000] hover:bg-[#4D0000]/90 hover:text-[#FFF9A7] transition-all disabled:opacity-60 border border-[#4D0000]/20"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -29,7 +29,7 @@ export function SearchInput() {
   return (
     <input
       type="text"
-      className={`absolute flex items-center justify-center outline-none bg-[#760000]/90 text-[#FFF9A7] placeholder-[#FFF9A7]/70 ${beVietnamPro.className} p-2`}
+      className={`absolute flex items-center justify-center outline-none bg-[#4D0000]/90 text-[#FFF9A7] placeholder-[#FFF9A7]/70 ${beVietnamPro.className} p-2`}
       style={{
         width: '299px',
         height: '40px',

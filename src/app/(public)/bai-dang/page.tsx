@@ -174,7 +174,7 @@ export default async function PostListPage(props: {
 
       <section
         id="post-list-top"
-        className="relative w-full overflow-hidden bg-[#760000]/90"
+        className="relative w-full overflow-hidden bg-[#4D0000]/90"
         style={{ minHeight: `${paginationTop + 100}px` }}
       >
         <Image

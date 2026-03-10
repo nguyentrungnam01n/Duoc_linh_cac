@@ -85,7 +85,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('bold')
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -99,7 +99,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('italic')
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -113,7 +113,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('strike')
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -126,7 +126,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('heading', { level: 2 })
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -139,7 +139,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('heading', { level: 3 })
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
@@ -152,7 +152,7 @@ const MenuBar = ({ editor }: { editor: Editor | null }) => {
         }}
         className={`rounded px-2 py-1 text-sm font-medium transition-colors ${
           editor.isActive('bulletList')
-            ? 'bg-[#760000]/90 text-white'
+            ? 'bg-[#4D0000]/90 text-white'
             : 'text-stone-600 hover:bg-stone-200'
         }`}
       >
